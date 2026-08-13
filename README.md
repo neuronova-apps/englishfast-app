@@ -40,15 +40,16 @@ El progreso se almacena localmente en el navegador y no requiere cuenta ni base 
 ## Arquitectura del repositorio
 
 - `index.html`: interfaz principal y estructura semántica del MVP.
-- `styles.css`: estilos base, layout general, componentes y responsive.
-- `extras.css`: práctica, progreso y sistema orbital actual del hero.
+- `styles.css`: estilos base, layout general y componentes compartidos.
+- `practice.css`: estilos exclusivos de práctica, gramática y progreso.
+- `hero-orbit.css`: estilos y animaciones del sistema orbital del hero.
 - `script.js`: bancos iniciales, ejercicios, progreso local, almacenamiento seguro y navegación móvil.
 - `privacy/index.html`: versión web pública de la política de privacidad.
 - `PRIVACY.md`: referencia documental de la política de privacidad.
 - `sitemap.xml`: URLs públicas indexables.
 - `.nojekyll`: publicación estática directa mediante GitHub Pages.
 
-La lógica funcional se concentra en `script.js`; no se mantienen capas de compatibilidad paralelas ni archivos orbitales alternativos fuera de la carga efectiva de la aplicación.
+La lógica funcional se concentra en `script.js`; las dependencias activas se declaran directamente desde `index.html` y no se mantienen capas de compatibilidad paralelas ni archivos orbitales alternativos fuera de la carga efectiva de la aplicación.
 
 ## Próximas ampliaciones
 
