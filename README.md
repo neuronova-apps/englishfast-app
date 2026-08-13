@@ -4,56 +4,59 @@ English Fast es una aplicación educativa de Neuronova Apps orientada al aprendi
 
 ## Propósito
 
-El proyecto busca facilitar una experiencia de aprendizaje clara y accesible para personas que desean fortalecer vocabulario, gramática, comprensión de expresiones frecuentes y práctica básica de pronunciación.
+El proyecto busca facilitar una experiencia de aprendizaje clara y accesible para personas que desean fortalecer vocabulario, gramática, comprensión de expresiones frecuentes y, en etapas posteriores, práctica de pronunciación.
 
-English Fast no pretende sustituir un curso formal de idiomas ni una certificación académica. Su función es servir como recurso complementario de práctica y refuerzo.
+English Fast no sustituye un curso formal de idiomas ni una certificación académica. Funciona como recurso complementario de práctica y refuerzo.
 
 ## Estructura de aprendizaje
 
-La propuesta inicial organiza el contenido en cuatro rutas:
+La propuesta se organiza en cuatro rutas:
 
-- Vocabulario: palabras y expresiones de uso frecuente organizadas por temas.
-- Gramática: explicaciones breves acompañadas de ejemplos y ejercicios.
-- Pronunciación: orientaciones introductorias y futuras actividades de escucha y repetición.
-- Juegos: retos cortos para reconocer palabras, completar frases y reforzar contenidos.
+- Vocabulario: palabras y expresiones frecuentes organizadas por temas.
+- Gramática: estructuras esenciales con ejemplos y ejercicios breves.
+- Pronunciación: futura práctica de escucha y repetición.
+- Juegos: retos cortos para reforzar memoria y comprensión.
 
-## Experiencia web
+## Experiencia web actual
 
-La primera versión web funciona como presentación y demostración del proyecto. Incluye:
+El MVP web incluye:
 
-- explicación de la propuesta de aprendizaje;
+- presentación del enfoque de aprendizaje;
 - rutas temáticas;
-- mini práctica interactiva de vocabulario;
-- tarjetas de progreso conceptual;
+- práctica interactiva de vocabulario;
+- práctica básica de gramática;
+- categorías visibles en vocabulario;
+- puntuación y progreso local;
+- métricas diferenciadas de vocabulario y gramática;
 - diseño responsive;
-- navegación por teclado;
+- navegación por teclado y mejoras del menú móvil;
 - integración con el módulo central de accesibilidad de Neuronova Apps;
-- acceso visible a la política de privacidad.
+- política de privacidad pública;
+- metadatos SEO y sociales básicos.
 
-## Aplicación completa
+El progreso se almacena localmente en el navegador y no requiere cuenta ni base de datos remota.
 
-La aplicación podrá incorporar progresivamente:
+## Próximas ampliaciones
 
-- niveles de aprendizaje;
-- unidades temáticas;
-- banco ampliado de vocabulario y expresiones;
-- ejercicios de selección, escritura y ordenamiento;
+- banco ampliado de vocabulario y gramática;
+- clasificación progresiva por niveles;
+- ejercicios de escritura y ordenamiento de frases;
+- repaso adaptativo de errores;
 - práctica auditiva;
 - pronunciación guiada;
-- seguimiento del progreso;
-- repasos espaciados;
-- logros y metas;
-- actividades y minijuegos.
+- logros, metas y minijuegos.
 
 ## Privacidad
 
-English Fast dispone de una política de privacidad pública para informar sobre tratamiento de datos, almacenamiento local, servicios de terceros, menores, retención y contacto. Esta página está preparada para ser utilizada como URL de política de privacidad en Google Play cuando corresponda.
+English Fast dispone de una política pública sobre tratamiento de datos, almacenamiento local, servicios de terceros, menores, retención y contacto.
 
 Política: https://neuronova-apps.github.io/englishfast-app/privacy/
 
+La versión actual no requiere cuenta, no utiliza publicidad ni seguimiento y no solicita acceso al micrófono. Cualquier incorporación futura de reconocimiento de voz, analítica, nube o servicios externos requerirá actualizar la política antes de activarse.
+
 ## Accesibilidad
 
-English Fast utiliza el núcleo compartido de accesibilidad de Neuronova Apps, con opciones como tamaño de texto, alto contraste, espaciado, interlineado, reducción de movimiento, guía de lectura y foco de teclado reforzado.
+English Fast utiliza el núcleo compartido de accesibilidad de Neuronova Apps y mantiene navegación por teclado, foco visible, diseño adaptable y compatibilidad con preferencias de reducción de movimiento.
 
 ## Ecosistema
 
@@ -65,4 +68,4 @@ Proyecto personal desarrollado por Gabriel Berrospi dentro del ecosistema Neuron
 
 ## Estado
 
-En desarrollo activo.
+MVP web funcional en desarrollo activo.
