@@ -1,72 +1,54 @@
 .hero-visual {
-  width: min(100%, 500px);
+  width: min(100%, 430px);
   aspect-ratio: 1;
   justify-self: end;
+  align-self: center;
   position: relative;
   display: grid;
   place-items: center;
   isolation: isolate;
-  background: radial-gradient(
-    circle at center,
-    transparent 0 134px,
-    rgba(140, 124, 255, .20) 135px,
-    transparent 136px,
-    transparent 203px,
-    rgba(88, 212, 255, .22) 204px,
-    transparent 205px
-  );
+  background: radial-gradient(circle at center, transparent 0 115px, rgba(140,124,255,.20) 116px, transparent 117px, transparent 171px, rgba(88,212,255,.22) 172px, transparent 173px);
 }
 
 .core {
   position: relative;
   z-index: 3;
-  width: 122px;
-  height: 122px;
-  border-radius: 25px;
+  display: grid;
+  place-items: center;
+  width: 107px;
+  height: 107px;
+  border-radius: 28px;
   border: 1px solid rgba(88, 212, 255, .48);
   background: linear-gradient(160deg, #17314d, #0a1727 72%);
   box-shadow: 0 0 48px rgba(88, 212, 255, .09), inset 0 0 0 1px rgba(255, 255, 255, .02);
-  font-size: 2.3rem;
+  font-size: 2.05rem;
+  font-weight: 900;
 }
 
 .word-card {
+  position: absolute;
   z-index: 4;
-  width: 92px;
-  min-height: 66px;
-  padding: 10px 11px;
+  width: 80px;
+  min-height: 60px;
+  padding: 8px 9px;
   text-align: center;
-  border-radius: 17px;
+  border-radius: 16px;
   background: rgba(13, 27, 45, .94);
   border: 1px solid rgba(88, 212, 255, .22);
   box-shadow: 0 14px 34px rgba(0, 0, 0, .16);
-  offset-path: circle(204px at 50% 50%);
+  offset-path: circle(172px at 50% 50%);
   offset-rotate: 0deg;
   animation: efOuterOrbit 34s linear infinite;
 }
 
-.word-card strong {
-  font-size: .76rem;
-  letter-spacing: .04em;
-}
+.word-card strong,
+.word-card span { display: block; }
+.word-card strong { font-size: .7rem; letter-spacing: .04em; }
+.word-card span { margin-top: 2px; color: var(--muted); font-size: .61rem; }
 
-.word-card span {
-  font-size: .66rem;
-  margin-top: 2px;
-}
-
-.wc1 {
-  offset-distance: 0%;
-}
-
-.wc2 {
-  offset-distance: 25%;
-  animation-delay: -8.5s;
-}
-
-.wc3 {
-  offset-distance: 75%;
-  animation-delay: -25.5s;
-}
+.wc1 { offset-distance: 0%; }
+.wc2 { offset-distance: 25%; animation-delay: -8.5s; }
+.wc3 { offset-distance: 75%; animation-delay: -25.5s; }
 
 .hero-visual::after {
   content: "PLAY";
@@ -74,17 +56,17 @@
   z-index: 4;
   display: grid;
   place-items: center;
-  width: 76px;
-  height: 52px;
+  width: 68px;
+  height: 48px;
   border: 1px solid rgba(140, 124, 255, .32);
-  border-radius: 17px;
+  border-radius: 16px;
   background: rgba(13, 27, 45, .94);
   color: #9b8cff;
-  font-size: .68rem;
+  font-size: .63rem;
   font-weight: 900;
   letter-spacing: .08em;
   box-shadow: 0 14px 34px rgba(0, 0, 0, .16);
-  offset-path: circle(204px at 50% 50%);
+  offset-path: circle(172px at 50% 50%);
   offset-distance: 50%;
   offset-rotate: 0deg;
   animation: efOuterOrbit 34s linear infinite;
@@ -98,13 +80,13 @@
   z-index: 5;
   display: grid;
   place-items: center;
-  min-height: 30px;
-  padding: 6px 11px;
+  min-height: 31px;
+  padding: 6px 10px;
   border: 1px solid rgba(104, 217, 255, .17);
   border-radius: 999px;
   background: #0d1b2d;
   color: #9bb3c7;
-  font-size: .56rem;
+  font-size: .53rem;
   font-weight: 850;
   letter-spacing: .055em;
   white-space: nowrap;
@@ -113,96 +95,32 @@
   animation: efInnerOrbit 24s linear infinite;
 }
 
-.core::before {
-  content: "WORDS";
-  offset-path: circle(135px at 50% 50%);
-  offset-distance: 0%;
-}
+.core::before { content: "WORDS"; offset-path: circle(116px at 50% 50%); offset-distance: 0%; }
+.core::after { content: "GRAMMAR"; offset-path: circle(116px at 50% 50%); offset-distance: 33.333%; animation-delay: -8s; }
+.hero-visual::before { content: "SOUND"; offset-path: circle(116px at 50% 50%); offset-distance: 66.666%; animation-delay: -16s; }
+.word-card::after { content: none !important; }
 
-.core::after {
-  content: "GRAMMAR";
-  offset-path: circle(135px at 50% 50%);
-  offset-distance: 33.333%;
-  animation-delay: -8s;
-}
+@keyframes efOuterOrbit { to { offset-distance: 100%; } }
+@keyframes efInnerOrbit { to { offset-distance: 100%; } }
 
-.hero-visual::before {
-  content: "SOUND";
-  offset-path: circle(135px at 50% 50%);
-  offset-distance: 66.666%;
-  animation-delay: -16s;
-}
-
-.word-card::after {
-  content: none !important;
-}
-
-@keyframes efOuterOrbit {
-  to {
-    offset-distance: 100%;
-  }
-}
-
-@keyframes efInnerOrbit {
-  to {
-    offset-distance: 100%;
-  }
-}
-
-@media (max-width: 980px) {
+@media (max-width: 900px) {
   .hero-visual {
+    width: min(82vw, 390px);
     justify-self: center;
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 700px) {
   .hero-visual {
-    width: min(92vw, 390px);
-    background: radial-gradient(
-      circle at center,
-      transparent 0 109px,
-      rgba(140, 124, 255, .20) 110px,
-      transparent 111px,
-      transparent 164px,
-      rgba(88, 212, 255, .22) 165px,
-      transparent 166px
-    );
+    background: radial-gradient(circle at center, transparent 0 104px, rgba(140,124,255,.20) 105px, transparent 106px, transparent 155px, rgba(88,212,255,.22) 156px, transparent 157px);
   }
 
   .word-card,
-  .hero-visual::after {
-    offset-path: circle(165px at 50% 50%);
-  }
+  .hero-visual::after { offset-path: circle(156px at 50% 50%); }
 
   .core::before,
   .core::after,
-  .hero-visual::before {
-    offset-path: circle(110px at 50% 50%);
-  }
-
-  .core {
-    width: 106px;
-    height: 106px;
-    font-size: 2rem;
-  }
-
-  .word-card {
-    width: 80px;
-    min-height: 60px;
-    padding: 8px 9px;
-  }
-
-  .hero-visual::after {
-    width: 64px;
-    height: 46px;
-  }
-
-  .core::before,
-  .core::after,
-  .hero-visual::before {
-    font-size: .5rem;
-    padding: 5px 9px;
-  }
+  .hero-visual::before { offset-path: circle(105px at 50% 50%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -210,7 +128,5 @@
   .hero-visual::after,
   .core::before,
   .core::after,
-  .hero-visual::before {
-    animation: none !important;
-  }
+  .hero-visual::before { animation: none !important; }
 }
