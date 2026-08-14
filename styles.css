@@ -93,14 +93,16 @@ a {
 }
 
 .brand-mark {
-  display:grid;
-  place-items:center;
+  display:block;
   width:38px;
   height:38px;
+  flex:0 0 38px;
   border-radius:12px;
-  background:linear-gradient(135deg,var(--accent),var(--accent-2));
-  color:#04111c;
-  font-weight:900
+  background:url("favicon.svg") center/cover no-repeat;
+  color:transparent;
+  font-size:0;
+  overflow:hidden;
+  box-shadow:0 0 18px rgba(88,212,255,.08)
 }
 
 .brand strong,.brand small {
