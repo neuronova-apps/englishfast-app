@@ -28,6 +28,8 @@ El MVP web incluye:
 - categorías visibles en vocabulario;
 - progreso local diferenciado de vocabulario y gramática;
 - precisión total calculada en el dispositivo;
+- historial local por ejercicio con intentos, aciertos, errores y actividad de repaso;
+- contador de ejercicios distintos practicados;
 - cola local de errores pendientes para vocabulario y gramática;
 - modo de repaso que vuelve a presentar los ejercicios fallados hasta resolverlos;
 - funcionamiento de los ejercicios aunque `localStorage` no esté disponible;
@@ -37,15 +39,17 @@ El MVP web incluye:
 - política de privacidad pública;
 - metadatos SEO y sociales básicos.
 
-El progreso se almacena localmente en el navegador y no requiere cuenta ni base de datos remota. Los errores de vocabulario y gramática se guardan por ejercicio y se eliminan de la cola de repaso cuando la persona responde correctamente. Las respuestas realizadas durante el modo de repaso no modifican la precisión histórica acumulada.
+El progreso se almacena localmente en el navegador y no requiere cuenta ni base de datos remota. Los contadores globales conservan la precisión histórica de la práctica normal. Además, cada ejercicio mantiene desde esta versión un registro propio de intentos, aciertos, errores, intentos de repaso, última respuesta y última actividad. Los errores de vocabulario y gramática se eliminan de la cola de repaso cuando la persona responde correctamente.
+
+Las respuestas realizadas durante el modo de repaso no modifican la precisión histórica acumulada, pero sí quedan registradas dentro del historial específico del ejercicio. Los contadores globales existentes de versiones anteriores se conservan; el historial individual empieza a acumular datos desde la incorporación de esta función.
 
 ## Arquitectura del repositorio
 
 - `index.html`: interfaz principal y estructura semántica del MVP.
 - `styles.css`: estilos base, layout general y componentes compartidos.
-- `practice.css`: estilos exclusivos de práctica, gramática y progreso.
+- `practice.css`: estilos exclusivos de práctica, historial por ejercicio, gramática y progreso.
 - `hero-orbit.css`: estilos y animaciones del sistema orbital del hero.
-- `script.js`: bancos iniciales, ejercicios, progreso local, cola de errores, modo de repaso, almacenamiento seguro y navegación móvil.
+- `script.js`: bancos iniciales, ejercicios, progreso global y por ejercicio, cola de errores, modo de repaso, almacenamiento seguro y navegación móvil.
 - `privacy/index.html`: versión web pública de la política de privacidad.
 - `PRIVACY.md`: referencia documental de la política de privacidad.
 - `sitemap.xml`: URLs públicas indexables.
