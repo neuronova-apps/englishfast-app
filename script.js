@@ -1,26 +1,4 @@
-const vocabBank = [
-  { id: 'house', w: 'HOUSE', cat: 'Home', a: ['Casa', 'Mesa', 'Puerta', 'Calle'], c: 'Casa' },
-  { id: 'book', w: 'BOOK', cat: 'Study', a: ['Libro', 'Cuaderno', 'Lápiz', 'Clase'], c: 'Libro' },
-  { id: 'water', w: 'WATER', cat: 'Daily life', a: ['Agua', 'Comida', 'Vaso', 'Jugo'], c: 'Agua' },
-  { id: 'friend', w: 'FRIEND', cat: 'People', a: ['Amigo/a', 'Familia', 'Vecino/a', 'Profesor/a'], c: 'Amigo/a' },
-  { id: 'learn', w: 'LEARN', cat: 'Actions', a: ['Aprender', 'Escuchar', 'Escribir', 'Leer'], c: 'Aprender' },
-  { id: 'school', w: 'SCHOOL', cat: 'Study', a: ['Escuela', 'Oficina', 'Tienda', 'Parque'], c: 'Escuela' },
-  { id: 'morning', w: 'MORNING', cat: 'Time', a: ['Mañana', 'Tarde', 'Noche', 'Semana'], c: 'Mañana' },
-  { id: 'happy', w: 'HAPPY', cat: 'Feelings', a: ['Feliz', 'Cansado/a', 'Triste', 'Enojado/a'], c: 'Feliz' },
-  { id: 'family', w: 'FAMILY', cat: 'People', a: ['Familia', 'Amistad', 'Trabajo', 'Casa'], c: 'Familia' },
-  { id: 'write', w: 'WRITE', cat: 'Actions', a: ['Escribir', 'Hablar', 'Escuchar', 'Caminar'], c: 'Escribir' },
-  { id: 'food', w: 'FOOD', cat: 'Daily life', a: ['Comida', 'Bebida', 'Plato', 'Cocina'], c: 'Comida' },
-  { id: 'today', w: 'TODAY', cat: 'Time', a: ['Hoy', 'Ayer', 'Mañana', 'Ahora'], c: 'Hoy' }
-];
-
-const grammarBank = [
-  { id: 'be-i', s: 'I ___ a student.', a: ['am', 'is', 'are'], c: 'am', e: 'Con I se usa am.' },
-  { id: 'be-she', s: 'She ___ my friend.', a: ['am', 'is', 'are'], c: 'is', e: 'Con she se usa is.' },
-  { id: 'be-they', s: 'They ___ at home.', a: ['am', 'is', 'are'], c: 'are', e: 'Con they se usa are.' },
-  { id: 'present-he', s: 'He ___ English every day.', a: ['study', 'studies', 'studying'], c: 'studies', e: 'En presente simple, he añade -s.' },
-  { id: 'present-we', s: 'We ___ coffee in the morning.', a: ['drink', 'drinks', 'drinking'], c: 'drink', e: 'Con we se usa la forma base.' },
-  { id: 'be-this', s: 'This ___ my book.', a: ['am', 'is', 'are'], c: 'is', e: 'This se usa con is.' }
-];
+const { vocabBank = [], grammarBank = [] } = window.EnglishFastContent || {};
 
 const STORAGE_KEYS = {
   vocabCorrect: 'ef-vc',
@@ -51,6 +29,10 @@ const progressAccuracy = document.querySelector('#progressAccuracy');
 const reviewErrors = document.querySelector('#reviewErrors');
 const resetProgress = document.querySelector('#resetProgress');
 const storageNotice = document.querySelector('#storageNotice');
+const practiceLevel = document.querySelector('#practiceLevel');
+const vocabTopic = document.querySelector('#vocabTopic');
+const grammarTopic = document.querySelector('#grammarTopic');
+const filterSummary = document.querySelector('#filterSummary');
 const menu = document.querySelector('.menu');
 const nav = document.querySelector('#nav');
 
@@ -160,10 +142,89 @@ function shuffle(list) {
   return copy;
 }
 
-let vocabDeck = shuffle(vocabBank);
+function selectedLevel() {
+  return practiceLevel?.value || 'all';
+}
+
+function itemMatchesLevel(item) {
+  const level = selectedLevel();
+  return level === 'all' || item.level === level;
+}
+
+function populateTopicSelect(select, bank, property) {
+  if (!select) return;
+
+  const previous = select.value;
+  const topics = [...new Set(
+    bank
+      .filter(itemMatchesLevel)
+      .map(item => item[property])
+      .filter(Boolean)
+  )].sort((a, b) => a.localeCompare(b, 'es'));
+
+  select.innerHTML = '<option value="all">Todos los temas</option>';
+
+  topics.forEach(topic => {
+    const option = document.createElement('option');
+    option.value = topic;
+    option.textContent = topic;
+    select.appendChild(option);
+  });
+
+  select.value = topics.includes(previous) ? previous : 'all';
+}
+
+function updateTopicOptions() {
+  populateTopicSelect(vocabTopic, vocabBank, 'cat');
+  populateTopicSelect(grammarTopic, grammarBank, 'topic');
+}
+
+function getNormalVocabPool() {
+  const topic = vocabTopic?.value || 'all';
+  return vocabBank.filter(item => itemMatchesLevel(item) && (topic === 'all' || item.cat === topic));
+}
+
+function getNormalGrammarPool() {
+  const topic = grammarTopic?.value || 'all';
+  return grammarBank.filter(item => itemMatchesLevel(item) && (topic === 'all' || item.topic === topic));
+}
+
+let vocabDeck = [];
 let vocabIndex = 0;
-let grammarDeck = shuffle(grammarBank);
+let grammarDeck = [];
 let grammarIndex = 0;
+
+function renderFilterSummary(message = '') {
+  if (!filterSummary) return;
+
+  if (message) {
+    filterSummary.textContent = message;
+    return;
+  }
+
+  const level = selectedLevel();
+  const vocabCount = getNormalVocabPool().length;
+  const grammarCount = getNormalGrammarPool().length;
+  const levelLabel = level === 'all' ? 'A1 + A2 inicial' : level;
+  filterSummary.textContent = `${levelLabel}: ${vocabCount} ejercicios de vocabulario y ${grammarCount} de gramática disponibles con los filtros actuales.`;
+}
+
+function resetNormalDecks() {
+  vocabDeck = shuffle(getNormalVocabPool());
+  vocabIndex = 0;
+  grammarDeck = shuffle(getNormalGrammarPool());
+  grammarIndex = 0;
+  renderVocab();
+  renderGrammar();
+  renderFilterSummary();
+}
+
+function applyPracticeFilters() {
+  const wasReviewing = reviewMode;
+  reviewMode = false;
+  resetNormalDecks();
+  renderProgress(wasReviewing ? 'Filtros aplicados. El modo repaso se cerró y volvió la práctica normal.' : 'Filtros de práctica actualizados.');
+}
 
 function pendingErrorCount() {
   return progress.vocabErrors.length + progress.grammarErrors.length;
@@ -351,14 +412,19 @@ function renderVocab() {
   }
 
   const question = vocabDeck[vocabIndex];
-  if (!question) return;
+  if (!question) {
+    if (word) word.textContent = '—';
+    if (answers) answers.innerHTML = '';
+    if (feedback) feedback.textContent = 'No hay ejercicios de vocabulario con estos filtros.';
+    return;
+  }
 
   word.textContent = question.w;
 
   if (vocabCategory) {
     vocabCategory.textContent = reviewMode
-      ? `VOCABULARY · REPASO · ${question.cat}`
-      : `VOCABULARY · ${question.cat}`;
+      ? `VOCABULARY · REPASO · ${question.level} · ${question.cat}`
+      : `VOCABULARY · ${question.level} · ${question.cat}`;
   }
 
   feedback.textContent = reviewMode
@@ -420,12 +486,18 @@ function renderGrammar() {
   }
 
   const question = grammarDeck[grammarIndex];
-  if (!question) return;
+  if (!question) {
+    if (grammarLabel) grammarLabel.textContent = 'GRAMMAR';
+    grammarSentence.textContent = '—';
+    grammarAnswers.innerHTML = '';
+    grammarFeedback.textContent = 'No hay ejercicios de gramática con estos filtros.';
+    return;
+  }
 
   if (grammarLabel) {
     grammarLabel.textContent = reviewMode
-      ? 'GRAMMAR · REPASO'
-      : 'GRAMMAR · Completa la oración';
+      ? `GRAMMAR · REPASO · ${question.level} · ${question.topic}`
+      : `GRAMMAR · ${question.level} · ${question.topic}`;
   }
 
   grammarSentence.textContent = question.s;
@@ -500,6 +572,7 @@ function startErrorReview() {
   reviewMode = true;
   refreshVocabReview();
   refreshGrammarReview();
+  renderFilterSummary('Modo repaso: se muestran todos los errores pendientes, sin limitarse por los filtros de nivel o tema.');
   renderProgress(`Modo repaso activo: ${errors} ${errors === 1 ? 'error pendiente' : 'errores pendientes'}. Los aciertos del repaso resuelven la cola sin alterar la precisión histórica.`);
   document.querySelector('#practica')?.scrollIntoView({
     behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
@@ -508,12 +581,7 @@ function startErrorReview() {
 
 function exitErrorReview(message = 'Has vuelto a la práctica normal.') {
   reviewMode = false;
-  vocabDeck = shuffle(vocabBank);
-  vocabIndex = 0;
-  grammarDeck = shuffle(grammarBank);
-  grammarIndex = 0;
-  renderVocab();
-  renderGrammar();
+  resetNormalDecks();
   renderProgress(message);
 }
 
@@ -526,7 +594,7 @@ nextQuestion?.addEventListener('click', () => {
   vocabIndex += 1;
 
   if (vocabIndex >= vocabDeck.length) {
-    vocabDeck = shuffle(vocabBank);
+    vocabDeck = shuffle(getNormalVocabPool());
     vocabIndex = 0;
   }
 
@@ -542,7 +610,7 @@ nextGrammar?.addEventListener('click', () => {
   grammarIndex += 1;
 
   if (grammarIndex >= grammarDeck.length) {
-    grammarDeck = shuffle(grammarBank);
+    grammarDeck = shuffle(getNormalGrammarPool());
     grammarIndex = 0;
   }
 
@@ -556,6 +624,14 @@ reviewErrors?.addEventListener('click', () => {
     startErrorReview();
   }
 });
+
+practiceLevel?.addEventListener('change', () => {
+  updateTopicOptions();
+  applyPracticeFilters();
+});
+
+vocabTopic?.addEventListener('change', applyPracticeFilters);
+grammarTopic?.addEventListener('change', applyPracticeFilters);
 
 resetProgress?.addEventListener('click', () => {
   progress.vocabCorrect = 0;
@@ -579,8 +655,7 @@ resetProgress?.addEventListener('click', () => {
   if (reviewMode) {
     exitErrorReview('Progreso, historial por ejercicio y cola de errores reiniciados.');
   } else {
-    renderVocab();
-    renderGrammar();
+    resetNormalDecks();
     renderProgress('Progreso, historial por ejercicio y cola de errores reiniciados.');
   }
 });
@@ -611,6 +686,6 @@ document.addEventListener('keydown', event => {
   }
 });
 
-renderVocab();
-renderGrammar();
+updateTopicOptions();
+resetNormalDecks();
 renderProgress();
