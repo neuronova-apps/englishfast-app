@@ -1,5 +1,12 @@
 /* English Fast · estructura visual común con Neuronova Apps */
 
+/* La marca del header respeta la geometría propia del favicon sin recortes adicionales. */
+.brand-mark {
+  border-radius: 0;
+  background: url("favicon.svg") center / contain no-repeat;
+  overflow: visible;
+}
+
 .hero::after {
   content: "";
   position: absolute;
