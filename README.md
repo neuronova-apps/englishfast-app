@@ -49,7 +49,7 @@ Además de las rutas interactivas, English Fast incluye cinco páginas independi
 - `presente-simple-ingles.html`: afirmaciones, tercera persona, `do/does`, negativas y ejemplos;
 - `como-aprender-ingles.html`: método de estudio breve basado en comprensión, práctica y repaso.
 
-Cada recurso dispone de descripción SEO, canonical propio, metadatos sociales textuales, navegación entre guías, integración con el módulo compartido de accesibilidad y enlaces de vuelta a las rutas prácticas relacionadas.
+Cada recurso dispone de descripción SEO, canonical propio, metadatos sociales, navegación entre guías, integración con el módulo compartido de accesibilidad y enlaces de vuelta a las rutas prácticas relacionadas. Portada y guías comparten una tarjeta social PNG de **1200 × 630** con `summary_large_image`, conservando títulos y descripciones específicos por página.
 
 ## Experiencia web actual
 
@@ -82,7 +82,7 @@ El MVP web incluye:
 - integración con el módulo central de accesibilidad de Neuronova Apps;
 - política de privacidad pública;
 - sitemap con portada, cinco guías educativas y privacidad;
-- metadatos SEO y sociales básicos.
+- metadatos Open Graph y Twitter con tarjeta social dedicada de 1200 × 630.
 
 Cambiar los filtros de nivel o tema reinicia la posición visual de la ruta seleccionada, pero no elimina el progreso. Las rutas normales mantienen un orden estable dentro del banco filtrado; el modo de repaso puede presentar los errores pendientes en otro orden y no se limita por los filtros seleccionados.
 
@@ -101,6 +101,7 @@ Las respuestas realizadas durante el modo de repaso no modifican la precisión h
 - `practice.css`: estilos de filtros, rutas guiadas, etapas de aprendizaje, historial por ejercicio, progreso y foco visible específico de la práctica.
 - `resources.css`: presentación compartida de las páginas educativas independientes.
 - `vocabulario-ingles-basico.html`, `gramatica-ingles-basica.html`, `verbo-to-be.html`, `presente-simple-ingles.html` y `como-aprender-ingles.html`: contenido educativo público e indexable.
+- `assets/social/englishfast-social.png`: tarjeta social común en formato PNG 1200 × 630 para Open Graph y Twitter.
 - `hero-orbit.css`: estilos y animaciones del sistema orbital del hero.
 - `shell.css`: ajustes de marca y estructura compartida del footer.
 - `privacy/index.html`: versión web pública de la política de privacidad.
