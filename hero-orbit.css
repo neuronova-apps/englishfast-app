@@ -7,12 +7,31 @@
   display: grid;
   place-items: center;
   isolation: isolate;
-  background: radial-gradient(circle at center, transparent 0 115px, rgba(140,124,255,.20) 116px, transparent 117px, transparent 171px, rgba(88,212,255,.22) 172px, transparent 173px);
+}
+
+.orbit {
+  position: absolute;
+  border-radius: 50%;
+  transform-origin: center;
+}
+
+.orbit-outer {
+  width: 344px;
+  height: 344px;
+  border: 1px solid rgba(88, 212, 255, .22);
+  animation: efOuterSpin 42s linear infinite;
+}
+
+.orbit-inner {
+  width: 232px;
+  height: 232px;
+  border: 1px solid rgba(140, 124, 255, .20);
+  animation: efInnerSpin 54s linear infinite reverse;
 }
 
 .core {
   position: relative;
-  z-index: 3;
+  z-index: 5;
   display: grid;
   place-items: center;
   width: 107px;
@@ -25,108 +44,135 @@
   font-weight: 900;
 }
 
-.word-card {
+.orbit-item {
   position: absolute;
-  z-index: 4;
+  transform: translate(-50%, -50%);
+}
+
+.outer-item {
+  animation: efOuterReadable 42s linear infinite reverse;
+}
+
+.inner-item {
+  animation: efInnerReadable 54s linear infinite;
+}
+
+.outer-hello { top: 0; left: 50%; }
+.outer-learn { top: 50%; left: 0; }
+.outer-speak { top: 50%; left: 100%; }
+.outer-play { top: 100%; left: 50%; }
+
+.inner-words { top: 50%; left: 0; }
+.inner-grammar { top: 0; left: 50%; }
+.inner-sound { top: 50%; left: 100%; }
+
+.word-card,
+.play-card,
+.data-chip {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: rgba(13, 27, 45, .94);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .16);
+}
+
+.word-card {
   width: 80px;
   min-height: 60px;
   padding: 8px 9px;
-  text-align: center;
   border-radius: 16px;
-  background: rgba(13, 27, 45, .94);
   border: 1px solid rgba(88, 212, 255, .22);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, .16);
-  offset-path: circle(172px at 50% 50%);
-  offset-rotate: 0deg;
-  animation: efOuterOrbit 34s linear infinite;
 }
 
 .word-card strong,
-.word-card span { display: block; }
-.word-card strong { font-size: .7rem; letter-spacing: .04em; }
-.word-card span { margin-top: 2px; color: var(--muted); font-size: .61rem; }
+.word-card span {
+  display: block;
+}
 
-.wc1 { offset-distance: 0%; }
-.wc2 { offset-distance: 25%; animation-delay: -8.5s; }
-.wc3 { offset-distance: 75%; animation-delay: -25.5s; }
+.word-card strong {
+  font-size: .7rem;
+  letter-spacing: .04em;
+}
 
-.hero-visual::after {
-  content: "PLAY";
-  position: absolute;
-  z-index: 4;
-  display: grid;
-  place-items: center;
+.word-card span {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: .61rem;
+}
+
+.play-card {
   width: 68px;
   height: 48px;
   border: 1px solid rgba(140, 124, 255, .32);
   border-radius: 16px;
-  background: rgba(13, 27, 45, .94);
   color: #9b8cff;
   font-size: .63rem;
   font-weight: 900;
   letter-spacing: .08em;
-  box-shadow: 0 14px 34px rgba(0, 0, 0, .16);
-  offset-path: circle(172px at 50% 50%);
-  offset-distance: 50%;
-  offset-rotate: 0deg;
-  animation: efOuterOrbit 34s linear infinite;
-  animation-delay: -17s;
 }
 
-.core::before,
-.core::after,
-.hero-visual::before {
-  position: absolute;
-  z-index: 5;
-  display: grid;
-  place-items: center;
+.data-chip {
   min-height: 31px;
   padding: 6px 10px;
   border: 1px solid rgba(104, 217, 255, .17);
   border-radius: 999px;
-  background: #0d1b2d;
   color: #9bb3c7;
   font-size: .53rem;
   font-weight: 850;
   letter-spacing: .055em;
   white-space: nowrap;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, .14);
-  offset-rotate: 0deg;
-  animation: efInnerOrbit 24s linear infinite;
 }
 
-.core::before { content: "WORDS"; offset-path: circle(116px at 50% 50%); offset-distance: 0%; }
-.core::after { content: "GRAMMAR"; offset-path: circle(116px at 50% 50%); offset-distance: 33.333%; animation-delay: -8s; }
-.hero-visual::before { content: "SOUND"; offset-path: circle(116px at 50% 50%); offset-distance: 66.666%; animation-delay: -16s; }
-.word-card::after { content: none !important; }
+@keyframes efOuterSpin {
+  to { transform: rotate(360deg); }
+}
 
-@keyframes efOuterOrbit { to { offset-distance: 100%; } }
-@keyframes efInnerOrbit { to { offset-distance: 100%; } }
+@keyframes efOuterReadable {
+  to { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+@keyframes efInnerSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes efInnerReadable {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
 
 @media (max-width: 900px) {
   .hero-visual {
     width: min(82vw, 390px);
     justify-self: center;
   }
+
+  .orbit-outer {
+    width: 312px;
+    height: 312px;
+  }
+
+  .orbit-inner {
+    width: 210px;
+    height: 210px;
+  }
 }
 
 @media (max-width: 700px) {
-  .hero-visual {
-    background: radial-gradient(circle at center, transparent 0 104px, rgba(140,124,255,.20) 105px, transparent 106px, transparent 155px, rgba(88,212,255,.22) 156px, transparent 157px);
+  .orbit-outer {
+    width: min(80vw, 312px);
+    height: min(80vw, 312px);
   }
 
-  .word-card,
-  .hero-visual::after { offset-path: circle(156px at 50% 50%); }
-
-  .core::before,
-  .core::after,
-  .hero-visual::before { offset-path: circle(105px at 50% 50%); }
+  .orbit-inner {
+    width: min(54vw, 210px);
+    height: min(54vw, 210px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .word-card,
-  .hero-visual::after,
-  .core::before,
-  .core::after,
-  .hero-visual::before { animation: none !important; }
+  .orbit-outer,
+  .orbit-inner,
+  .outer-item,
+  .inner-item {
+    animation: none !important;
+  }
 }
