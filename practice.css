@@ -35,9 +35,12 @@
   font: inherit;
 }
 
-.practice-filter select:focus-visible {
-  outline: 3px solid rgba(88, 212, 255, .35);
-  outline-offset: 2px;
+.practice-filter select:focus-visible,
+.answers button:focus-visible,
+.route-next:focus-visible,
+.progress-actions .button:focus-visible {
+  outline: 3px solid rgba(88, 212, 255, .42);
+  outline-offset: 3px;
   border-color: var(--accent);
 }
 
@@ -153,6 +156,12 @@
   padding-bottom: 16px;
   border-color: rgba(88, 212, 255, .16);
   background: rgba(88, 212, 255, .025);
+}
+
+.practice-stage:focus,
+.lesson-result:focus {
+  outline: 3px solid rgba(88, 212, 255, .34);
+  outline-offset: 3px;
 }
 
 .lesson-result {
