@@ -39,6 +39,18 @@ Cada palabra de vocabulario incluye además un ejemplo contextual de uso y una n
 
 Los 18 ejercicios originales mantienen sus identificadores internos para conservar compatibilidad con el historial local y la cola de errores ya existente.
 
+## Recursos educativos públicos
+
+Además de las rutas interactivas, English Fast incluye cinco páginas independientes e indexables:
+
+- `vocabulario-ingles-basico.html`: vocabulario cotidiano, ejemplos, contrastes y rutina de práctica;
+- `gramatica-ingles-basica.html`: orden inicial de estructuras, patrones y errores frecuentes;
+- `verbo-to-be.html`: formas `am`, `is` y `are`, usos, negativas y preguntas;
+- `presente-simple-ingles.html`: afirmaciones, tercera persona, `do/does`, negativas y ejemplos;
+- `como-aprender-ingles.html`: método de estudio breve basado en comprensión, práctica y repaso.
+
+Cada recurso dispone de descripción SEO, canonical propio, metadatos sociales textuales, navegación entre guías, integración con el módulo compartido de accesibilidad y enlaces de vuelta a las rutas prácticas relacionadas.
+
 ## Experiencia web actual
 
 El MVP web incluye:
@@ -57,6 +69,7 @@ El MVP web incluye:
 - movimiento controlado del foco al resultado después de responder y al nuevo bloque de práctica después de avanzar;
 - anuncios accesibles sin duplicar simultáneamente resultado, feedback y estado de progreso;
 - foco visible reforzado en respuestas, filtros, navegación entre ejercicios y acciones de progreso;
+- cinco recursos educativos públicos enlazados desde la portada;
 - progreso local diferenciado de vocabulario y gramática;
 - precisión total calculada en el dispositivo;
 - historial local por ejercicio con intentos, aciertos, errores y actividad de repaso;
@@ -68,6 +81,7 @@ El MVP web incluye:
 - navegación por teclado y cierre del menú con Escape;
 - integración con el módulo central de accesibilidad de Neuronova Apps;
 - política de privacidad pública;
+- sitemap con portada, cinco guías educativas y privacidad;
 - metadatos SEO y sociales básicos.
 
 Cambiar los filtros de nivel o tema reinicia la posición visual de la ruta seleccionada, pero no elimina el progreso. Las rutas normales mantienen un orden estable dentro del banco filtrado; el modo de repaso puede presentar los errores pendientes en otro orden y no se limita por los filtros seleccionados.
@@ -78,13 +92,15 @@ Las respuestas realizadas durante el modo de repaso no modifican la precisión h
 
 ## Arquitectura del repositorio
 
-- `index.html`: interfaz principal, filtros, estructura semántica y cuatro etapas visibles de las rutas.
+- `index.html`: interfaz principal, filtros, estructura semántica, cuatro etapas visibles de las rutas y acceso a los recursos educativos.
 - `content.js`: banco educativo organizado por identificador, nivel y tema, incluidos ejemplos de uso y contrastes de vocabulario.
 - `script.js`: rutas guiadas, explicaciones temáticas, filtros, ejercicios, resultados, progreso global y por ejercicio, cola de errores, modo de repaso, almacenamiento seguro y navegación móvil.
 - `feedback.js`: capa de retroalimentación pedagógica contextual para vocabulario y gramática.
 - `exercise-accessibility.js`: semántica de grupos de respuesta, gestión del foco y coordinación de anuncios accesibles de las rutas.
 - `styles.css`: estilos base, layout general y componentes compartidos.
 - `practice.css`: estilos de filtros, rutas guiadas, etapas de aprendizaje, historial por ejercicio, progreso y foco visible específico de la práctica.
+- `resources.css`: presentación compartida de las páginas educativas independientes.
+- `vocabulario-ingles-basico.html`, `gramatica-ingles-basica.html`, `verbo-to-be.html`, `presente-simple-ingles.html` y `como-aprender-ingles.html`: contenido educativo público e indexable.
 - `hero-orbit.css`: estilos y animaciones del sistema orbital del hero.
 - `shell.css`: ajustes de marca y estructura compartida del footer.
 - `privacy/index.html`: versión web pública de la política de privacidad.
@@ -92,7 +108,7 @@ Las respuestas realizadas durante el modo de repaso no modifican la precisión h
 - `sitemap.xml`: URLs públicas indexables.
 - `.nojekyll`: publicación estática directa mediante GitHub Pages.
 
-La separación de `content.js` evita mezclar el banco educativo con la lógica de interacción y permite ampliar niveles y temas sin reescribir el sistema de progreso. `feedback.js` reutiliza ese contenido para enriquecer el resultado después de cada respuesta sin duplicar el seguimiento ni la navegación de las rutas. `exercise-accessibility.js` mantiene la gestión semántica y de foco fuera de esa lógica funcional.
+La separación de `content.js` evita mezclar el banco educativo con la lógica de interacción y permite ampliar niveles y temas sin reescribir el sistema de progreso. `feedback.js` reutiliza ese contenido para enriquecer el resultado después de cada respuesta sin duplicar el seguimiento ni la navegación de las rutas. `exercise-accessibility.js` mantiene la gestión semántica y de foco fuera de esa lógica funcional. Las páginas educativas utilizan `resources.css` y no cargan la lógica interactiva completa de la portada.
 
 ## Próximas ampliaciones
 
@@ -118,7 +134,7 @@ English Fast utiliza el núcleo compartido de accesibilidad de Neuronova Apps y 
 
 En las rutas de aprendizaje, las opciones se exponen como grupos relacionados con la pregunta y su contexto. Después de responder, el foco pasa al resultado pedagógico final; al solicitar el ejercicio siguiente, pasa al nuevo bloque de práctica. Los filtros conservan el foco mientras su resumen se anuncia de forma independiente. El reinicio del progreso lleva el foco al mensaje de estado resultante. Los mensajes de feedback y progreso que acompañan una respuesta no utilizan regiones vivas paralelas, evitando anuncios repetidos del mismo evento.
 
-Los botones de respuesta, filtros, acciones de avance y controles de progreso cuentan con indicadores de foco visibles específicos, además de las preferencias globales ofrecidas por el módulo central de accesibilidad.
+Los botones de respuesta, filtros, acciones de avance y controles de progreso cuentan con indicadores de foco visibles específicos, además de las preferencias globales ofrecidas por el módulo central de accesibilidad. Las páginas educativas independientes también cargan el núcleo compartido de accesibilidad y mantienen navegación semántica, enlace de salto y foco visible.
 
 ## Ecosistema
 
