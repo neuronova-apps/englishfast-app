@@ -1,3 +1,4 @@
+(() => {
 const vocabBank = [
   { id: 'house', level: 'A1', cat: 'Home', w: 'HOUSE', a: ['Casa', 'Mesa', 'Puerta', 'Calle'], c: 'Casa' },
   { id: 'book', level: 'A1', cat: 'Study', w: 'BOOK', a: ['Libro', 'Cuaderno', 'Lápiz', 'Clase'], c: 'Libro' },
@@ -75,3 +76,4 @@ const grammarBank = [
 ];
 
 window.EnglishFastContent = { vocabBank, grammarBank };
+})();
