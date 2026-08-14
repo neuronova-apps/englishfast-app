@@ -30,6 +30,7 @@ const STORAGE_KEYS = {
 };
 
 const ERROR_STORAGE_KEY = 'ef-errors-v1';
+const ITEM_PROGRESS_KEY = 'ef-item-progress-v1';
 const LEGACY_STORAGE_KEYS = ['englishfast-score', 'englishfast-answered'];
 
 const vocabCategory = document.querySelector('#vocabCategory');
@@ -37,12 +38,15 @@ const word = document.querySelector('#questionWord');
 const answers = document.querySelector('#answers');
 const feedback = document.querySelector('#feedback');
 const nextQuestion = document.querySelector('#nextQuestion');
+const vocabItemStats = document.querySelector('#vocabItemStats');
 const grammarSentence = document.querySelector('#grammarSentence');
 const grammarAnswers = document.querySelector('#grammarAnswers');
 const grammarFeedback = document.querySelector('#grammarFeedback');
 const nextGrammar = document.querySelector('#nextGrammar');
+const grammarItemStats = document.querySelector('#grammarItemStats');
 const vocabProgress = document.querySelector('#vocabProgress');
 const grammarProgress = document.querySelector('#grammarProgress');
+const itemsPracticed = document.querySelector('#itemsPracticed');
 const progressAccuracy = document.querySelector('#progressAccuracy');
 const reviewErrors = document.querySelector('#reviewErrors');
 const resetProgress = document.querySelector('#resetProgress');
@@ -81,7 +85,59 @@ function readStoredErrors() {
   }
 }
 
+function emptyItemRecord() {
+  return {
+    attempts: 0,
+    correct: 0,
+    wrong: 0,
+    reviewAttempts: 0,
+    reviewCorrect: 0,
+    lastResult: null,
+    lastAt: null
+  };
+}
+
+function normalizeItemRecord(value) {
+  const base = emptyItemRecord();
+  if (!value || typeof value !== 'object') return base;
+
+  return {
+    attempts: Math.max(0, Number(value.attempts) || 0),
+    correct: Math.max(0, Number(value.correct) || 0),
+    wrong: Math.max(0, Number(value.wrong) || 0),
+    reviewAttempts: Math.max(0, Number(value.reviewAttempts) || 0),
+    reviewCorrect: Math.max(0, Number(value.reviewCorrect) || 0),
+    lastResult: value.lastResult === 'correct' || value.lastResult === 'wrong' ? value.lastResult : null,
+    lastAt: typeof value.lastAt === 'string' ? value.lastAt : null
+  };
+}
+
+function normalizeItemGroup(value, validIds) {
+  if (!value || typeof value !== 'object') return {};
+
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([id]) => validIds.has(id))
+      .map(([id, record]) => [id, normalizeItemRecord(record)])
+  );
+}
+
+function readStoredItemProgress() {
+  if (!storageAvailable) return { vocab: {}, grammar: {} };
+
+  try {
+    const value = JSON.parse(localStorage.getItem(ITEM_PROGRESS_KEY) || '{}');
+    return {
+      vocab: normalizeItemGroup(value.vocab, new Set(vocabBank.map(item => item.id))),
+      grammar: normalizeItemGroup(value.grammar, new Set(grammarBank.map(item => item.id)))
+    };
+  } catch {
+    return { vocab: {}, grammar: {} };
+  }
+}
+
 const storedErrors = readStoredErrors();
+const storedItemProgress = readStoredItemProgress();
 
 const progress = {
   vocabCorrect: readStoredNumber(STORAGE_KEYS.vocabCorrect),
@@ -89,7 +145,8 @@ const progress = {
   grammarCorrect: readStoredNumber(STORAGE_KEYS.grammarCorrect),
   grammarAnswered: readStoredNumber(STORAGE_KEYS.grammarAnswered),
   vocabErrors: storedErrors.vocab,
-  grammarErrors: storedErrors.grammar
+  grammarErrors: storedErrors.grammar,
+  itemProgress: storedItemProgress
 };
 
 function shuffle(list) {
@@ -130,13 +187,76 @@ function resolveError(type, id) {
   progress[key] = progress[key].filter(itemId => itemId !== id);
 }
 
+function getItemRecord(type, id) {
+  const group = progress.itemProgress[type];
+  if (!group[id]) group[id] = emptyItemRecord();
+  return group[id];
+}
+
+function recordItemAttempt(type, id, correct, isReview) {
+  const record = getItemRecord(type, id);
+
+  if (isReview) {
+    record.reviewAttempts += 1;
+    if (correct) record.reviewCorrect += 1;
+  } else {
+    record.attempts += 1;
+    if (correct) record.correct += 1;
+    else record.wrong += 1;
+  }
+
+  record.lastResult = correct ? 'correct' : 'wrong';
+  record.lastAt = new Date().toISOString();
+}
+
+function practicedItemCount() {
+  const vocabCount = Object.values(progress.itemProgress.vocab).filter(record => record.attempts > 0).length;
+  const grammarCount = Object.values(progress.itemProgress.grammar).filter(record => record.attempts > 0).length;
+  return vocabCount + grammarCount;
+}
+
+function itemIsPending(type, id) {
+  return type === 'vocab'
+    ? progress.vocabErrors.includes(id)
+    : progress.grammarErrors.includes(id);
+}
+
+function renderItemHistory(type, id, element) {
+  if (!element) return;
+  const record = progress.itemProgress[type]?.[id];
+
+  if (!record || (!record.attempts && !record.reviewAttempts)) {
+    element.textContent = 'Sin historial individual registrado todavía.';
+    return;
+  }
+
+  const parts = [];
+
+  if (record.attempts) {
+    const accuracy = Math.round((record.correct / record.attempts) * 100);
+    parts.push(`${record.correct} de ${record.attempts} correctas · ${accuracy}%`);
+  } else {
+    parts.push('Sin intentos de práctica normal registrados');
+  }
+
+  if (record.reviewAttempts) {
+    parts.push(`repaso ${record.reviewCorrect}/${record.reviewAttempts}`);
+  }
+
+  parts.push(itemIsPending(type, id) ? 'pendiente de repaso' : 'sin error pendiente');
+  element.textContent = `Historial de este ejercicio: ${parts.join(' · ')}.`;
+}
+
 function renderProgress(message = '') {
   const totalAnswered = progress.vocabAnswered + progress.grammarAnswered;
   const totalCorrect = progress.vocabCorrect + progress.grammarCorrect;
   const errors = pendingErrorCount();
+  const practiced = practicedItemCount();
+  const totalItems = vocabBank.length + grammarBank.length;
 
   if (vocabProgress) vocabProgress.textContent = `${progress.vocabCorrect} / ${progress.vocabAnswered}`;
   if (grammarProgress) grammarProgress.textContent = `${progress.grammarCorrect} / ${progress.grammarAnswered}`;
+  if (itemsPracticed) itemsPracticed.textContent = `${practiced} / ${totalItems}`;
 
   if (progressAccuracy) {
     progressAccuracy.textContent = totalAnswered
@@ -174,6 +294,7 @@ function saveProgress(message = '') {
         vocab: progress.vocabErrors,
         grammar: progress.grammarErrors
       }));
+      localStorage.setItem(ITEM_PROGRESS_KEY, JSON.stringify(progress.itemProgress));
     } catch {
       storageAvailable = false;
     }
@@ -201,6 +322,7 @@ function renderVocabEmptyReview() {
   if (word) word.textContent = '✓';
   if (answers) answers.innerHTML = '';
   if (feedback) feedback.textContent = 'No hay errores pendientes de vocabulario.';
+  if (vocabItemStats) vocabItemStats.textContent = 'No hay ejercicios de vocabulario pendientes de repaso.';
   if (nextQuestion) {
     nextQuestion.disabled = true;
     nextQuestion.textContent = 'Sin errores pendientes';
@@ -213,6 +335,7 @@ function renderGrammarEmptyReview() {
   if (grammarSentence) grammarSentence.textContent = '✓ Sin errores pendientes';
   if (grammarAnswers) grammarAnswers.innerHTML = '';
   if (grammarFeedback) grammarFeedback.textContent = 'No hay errores pendientes de gramática.';
+  if (grammarItemStats) grammarItemStats.textContent = 'No hay ejercicios de gramática pendientes de repaso.';
   if (nextGrammar) {
     nextGrammar.disabled = true;
     nextGrammar.textContent = 'Sin errores pendientes';
@@ -247,6 +370,7 @@ function renderVocab() {
     nextQuestion.textContent = reviewMode ? 'Siguiente error' : 'Siguiente palabra';
   }
 
+  renderItemHistory('vocab', question.id, vocabItemStats);
   renderOptions(answers, question.a, (option, button) => checkVocab(option, button, question));
 }
 
@@ -259,6 +383,7 @@ function checkVocab(option, button, question) {
   });
 
   const correct = option === question.c;
+  recordItemAttempt('vocab', question.id, correct, reviewMode);
 
   if (!reviewMode) {
     progress.vocabAnswered += 1;
@@ -281,6 +406,7 @@ function checkVocab(option, button, question) {
   }
 
   saveProgress();
+  renderItemHistory('vocab', question.id, vocabItemStats);
 }
 
 function renderGrammar() {
@@ -312,6 +438,7 @@ function renderGrammar() {
     nextGrammar.textContent = reviewMode ? 'Siguiente error' : 'Siguiente oración';
   }
 
+  renderItemHistory('grammar', question.id, grammarItemStats);
   renderOptions(grammarAnswers, question.a, (option, button) => checkGrammar(option, button, question));
 }
 
@@ -324,6 +451,7 @@ function checkGrammar(option, button, question) {
   });
 
   const correct = option === question.c;
+  recordItemAttempt('grammar', question.id, correct, reviewMode);
 
   if (!reviewMode) {
     progress.grammarAnswered += 1;
@@ -346,6 +474,7 @@ function checkGrammar(option, button, question) {
   }
 
   saveProgress();
+  renderItemHistory('grammar', question.id, grammarItemStats);
 }
 
 function refreshVocabReview() {
@@ -435,10 +564,11 @@ resetProgress?.addEventListener('click', () => {
   progress.grammarAnswered = 0;
   progress.vocabErrors = [];
   progress.grammarErrors = [];
+  progress.itemProgress = { vocab: {}, grammar: {} };
 
   if (storageAvailable) {
     try {
-      [...Object.values(STORAGE_KEYS), ERROR_STORAGE_KEY, ...LEGACY_STORAGE_KEYS].forEach(key => {
+      [...Object.values(STORAGE_KEYS), ERROR_STORAGE_KEY, ITEM_PROGRESS_KEY, ...LEGACY_STORAGE_KEYS].forEach(key => {
         localStorage.removeItem(key);
       });
     } catch {
@@ -447,9 +577,11 @@ resetProgress?.addEventListener('click', () => {
   }
 
   if (reviewMode) {
-    exitErrorReview('Progreso y cola de errores reiniciados.');
+    exitErrorReview('Progreso, historial por ejercicio y cola de errores reiniciados.');
   } else {
-    renderProgress('Progreso y cola de errores reiniciados.');
+    renderVocab();
+    renderGrammar();
+    renderProgress('Progreso, historial por ejercicio y cola de errores reiniciados.');
   }
 });
 
