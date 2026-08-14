@@ -35,6 +35,8 @@ El banco activo contiene **68 ejercicios**:
 
 El contenido se distribuye entre A1 y A2 inicial. Vocabulario incluye temas como hogar, estudio, vida diaria, personas, acciones, tiempo, emociones, comida, viajes, trabajo, salud, conectores y descripción. Gramática incluye `verb to be`, presente simple, artículos, pronombres, preposiciones, `there is / there are`, `can`, posesivos, pasado simple, comparativos, `going to`, presente continuo, cuantificadores, `should` y conectores.
 
+Cada palabra de vocabulario incluye además un ejemplo contextual de uso y una nota de contraste para diferenciarla de términos cercanos o distractores frecuentes. Los ejercicios de gramática conservan una explicación específica de la regla y, después de responder, muestran la oración completa correcta como modelo.
+
 Los 18 ejercicios originales mantienen sus identificadores internos para conservar compatibilidad con el historial local y la cola de errores ya existente.
 
 ## Experiencia web actual
@@ -48,6 +50,9 @@ El MVP web incluye:
 - recorrido ordenado de los ejercicios dentro de la selección actual;
 - bloqueo del avance hasta responder el ejercicio actual;
 - retroalimentación inmediata y resultado explícito antes de continuar;
+- retroalimentación contextual de vocabulario con significado, contraste semántico y ejemplo de uso;
+- retroalimentación gramatical con regla aplicada y oración completa correcta;
+- identificación de la opción elegida cuando la respuesta es incorrecta;
 - progreso local diferenciado de vocabulario y gramática;
 - precisión total calculada en el dispositivo;
 - historial local por ejercicio con intentos, aciertos, errores y actividad de repaso;
@@ -70,8 +75,9 @@ Las respuestas realizadas durante el modo de repaso no modifican la precisión h
 ## Arquitectura del repositorio
 
 - `index.html`: interfaz principal, filtros, estructura semántica y cuatro etapas visibles de las rutas.
-- `content.js`: banco educativo organizado por identificador, nivel y tema.
+- `content.js`: banco educativo organizado por identificador, nivel y tema, incluidos ejemplos de uso y contrastes de vocabulario.
 - `script.js`: rutas guiadas, explicaciones temáticas, filtros, ejercicios, resultados, progreso global y por ejercicio, cola de errores, modo de repaso, almacenamiento seguro y navegación móvil.
+- `feedback.js`: capa de retroalimentación pedagógica contextual para vocabulario y gramática.
 - `styles.css`: estilos base, layout general y componentes compartidos.
 - `practice.css`: estilos de filtros, rutas guiadas, etapas de aprendizaje, historial por ejercicio y progreso.
 - `hero-orbit.css`: estilos y animaciones del sistema orbital del hero.
@@ -81,7 +87,7 @@ Las respuestas realizadas durante el modo de repaso no modifican la precisión h
 - `sitemap.xml`: URLs públicas indexables.
 - `.nojekyll`: publicación estática directa mediante GitHub Pages.
 
-La separación de `content.js` evita mezclar el banco educativo con la lógica de interacción y permite ampliar niveles y temas sin reescribir el sistema de progreso.
+La separación de `content.js` evita mezclar el banco educativo con la lógica de interacción y permite ampliar niveles y temas sin reescribir el sistema de progreso. `feedback.js` reutiliza ese contenido para enriquecer el resultado después de cada respuesta sin duplicar el seguimiento ni la navegación de las rutas.
 
 ## Próximas ampliaciones
 
