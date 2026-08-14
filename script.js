@@ -1,25 +1,25 @@
 const vocabBank = [
-  { w: 'HOUSE', cat: 'Home', a: ['Casa', 'Mesa', 'Puerta', 'Calle'], c: 'Casa' },
-  { w: 'BOOK', cat: 'Study', a: ['Libro', 'Cuaderno', 'Lápiz', 'Clase'], c: 'Libro' },
-  { w: 'WATER', cat: 'Daily life', a: ['Agua', 'Comida', 'Vaso', 'Jugo'], c: 'Agua' },
-  { w: 'FRIEND', cat: 'People', a: ['Amigo/a', 'Familia', 'Vecino/a', 'Profesor/a'], c: 'Amigo/a' },
-  { w: 'LEARN', cat: 'Actions', a: ['Aprender', 'Escuchar', 'Escribir', 'Leer'], c: 'Aprender' },
-  { w: 'SCHOOL', cat: 'Study', a: ['Escuela', 'Oficina', 'Tienda', 'Parque'], c: 'Escuela' },
-  { w: 'MORNING', cat: 'Time', a: ['Mañana', 'Tarde', 'Noche', 'Semana'], c: 'Mañana' },
-  { w: 'HAPPY', cat: 'Feelings', a: ['Feliz', 'Cansado/a', 'Triste', 'Enojado/a'], c: 'Feliz' },
-  { w: 'FAMILY', cat: 'People', a: ['Familia', 'Amistad', 'Trabajo', 'Casa'], c: 'Familia' },
-  { w: 'WRITE', cat: 'Actions', a: ['Escribir', 'Hablar', 'Escuchar', 'Caminar'], c: 'Escribir' },
-  { w: 'FOOD', cat: 'Daily life', a: ['Comida', 'Bebida', 'Plato', 'Cocina'], c: 'Comida' },
-  { w: 'TODAY', cat: 'Time', a: ['Hoy', 'Ayer', 'Mañana', 'Ahora'], c: 'Hoy' }
+  { id: 'house', w: 'HOUSE', cat: 'Home', a: ['Casa', 'Mesa', 'Puerta', 'Calle'], c: 'Casa' },
+  { id: 'book', w: 'BOOK', cat: 'Study', a: ['Libro', 'Cuaderno', 'Lápiz', 'Clase'], c: 'Libro' },
+  { id: 'water', w: 'WATER', cat: 'Daily life', a: ['Agua', 'Comida', 'Vaso', 'Jugo'], c: 'Agua' },
+  { id: 'friend', w: 'FRIEND', cat: 'People', a: ['Amigo/a', 'Familia', 'Vecino/a', 'Profesor/a'], c: 'Amigo/a' },
+  { id: 'learn', w: 'LEARN', cat: 'Actions', a: ['Aprender', 'Escuchar', 'Escribir', 'Leer'], c: 'Aprender' },
+  { id: 'school', w: 'SCHOOL', cat: 'Study', a: ['Escuela', 'Oficina', 'Tienda', 'Parque'], c: 'Escuela' },
+  { id: 'morning', w: 'MORNING', cat: 'Time', a: ['Mañana', 'Tarde', 'Noche', 'Semana'], c: 'Mañana' },
+  { id: 'happy', w: 'HAPPY', cat: 'Feelings', a: ['Feliz', 'Cansado/a', 'Triste', 'Enojado/a'], c: 'Feliz' },
+  { id: 'family', w: 'FAMILY', cat: 'People', a: ['Familia', 'Amistad', 'Trabajo', 'Casa'], c: 'Familia' },
+  { id: 'write', w: 'WRITE', cat: 'Actions', a: ['Escribir', 'Hablar', 'Escuchar', 'Caminar'], c: 'Escribir' },
+  { id: 'food', w: 'FOOD', cat: 'Daily life', a: ['Comida', 'Bebida', 'Plato', 'Cocina'], c: 'Comida' },
+  { id: 'today', w: 'TODAY', cat: 'Time', a: ['Hoy', 'Ayer', 'Mañana', 'Ahora'], c: 'Hoy' }
 ];
 
 const grammarBank = [
-  { s: 'I ___ a student.', a: ['am', 'is', 'are'], c: 'am', e: 'Con I se usa am.' },
-  { s: 'She ___ my friend.', a: ['am', 'is', 'are'], c: 'is', e: 'Con she se usa is.' },
-  { s: 'They ___ at home.', a: ['am', 'is', 'are'], c: 'are', e: 'Con they se usa are.' },
-  { s: 'He ___ English every day.', a: ['study', 'studies', 'studying'], c: 'studies', e: 'En presente simple, he añade -s.' },
-  { s: 'We ___ coffee in the morning.', a: ['drink', 'drinks', 'drinking'], c: 'drink', e: 'Con we se usa la forma base.' },
-  { s: 'This ___ my book.', a: ['am', 'is', 'are'], c: 'is', e: 'This se usa con is.' }
+  { id: 'be-i', s: 'I ___ a student.', a: ['am', 'is', 'are'], c: 'am', e: 'Con I se usa am.' },
+  { id: 'be-she', s: 'She ___ my friend.', a: ['am', 'is', 'are'], c: 'is', e: 'Con she se usa is.' },
+  { id: 'be-they', s: 'They ___ at home.', a: ['am', 'is', 'are'], c: 'are', e: 'Con they se usa are.' },
+  { id: 'present-he', s: 'He ___ English every day.', a: ['study', 'studies', 'studying'], c: 'studies', e: 'En presente simple, he añade -s.' },
+  { id: 'present-we', s: 'We ___ coffee in the morning.', a: ['drink', 'drinks', 'drinking'], c: 'drink', e: 'Con we se usa la forma base.' },
+  { id: 'be-this', s: 'This ___ my book.', a: ['am', 'is', 'are'], c: 'is', e: 'This se usa con is.' }
 ];
 
 const STORAGE_KEYS = {
@@ -29,6 +29,7 @@ const STORAGE_KEYS = {
   grammarAnswered: 'ef-ga'
 };
 
+const ERROR_STORAGE_KEY = 'ef-errors-v1';
 const LEGACY_STORAGE_KEYS = ['englishfast-score', 'englishfast-answered'];
 
 const vocabCategory = document.querySelector('#vocabCategory');
@@ -50,6 +51,7 @@ const menu = document.querySelector('.menu');
 const nav = document.querySelector('#nav');
 
 let storageAvailable = true;
+let reviewMode = false;
 
 function readStoredNumber(key) {
   if (!storageAvailable) return 0;
@@ -62,11 +64,32 @@ function readStoredNumber(key) {
   }
 }
 
+function readStoredErrors() {
+  if (!storageAvailable) return { vocab: [], grammar: [] };
+
+  try {
+    const value = JSON.parse(localStorage.getItem(ERROR_STORAGE_KEY) || '{}');
+    const validVocab = new Set(vocabBank.map(item => item.id));
+    const validGrammar = new Set(grammarBank.map(item => item.id));
+
+    return {
+      vocab: Array.isArray(value.vocab) ? [...new Set(value.vocab.filter(id => validVocab.has(id)))] : [],
+      grammar: Array.isArray(value.grammar) ? [...new Set(value.grammar.filter(id => validGrammar.has(id)))] : []
+    };
+  } catch {
+    return { vocab: [], grammar: [] };
+  }
+}
+
+const storedErrors = readStoredErrors();
+
 const progress = {
   vocabCorrect: readStoredNumber(STORAGE_KEYS.vocabCorrect),
   vocabAnswered: readStoredNumber(STORAGE_KEYS.vocabAnswered),
   grammarCorrect: readStoredNumber(STORAGE_KEYS.grammarCorrect),
-  grammarAnswered: readStoredNumber(STORAGE_KEYS.grammarAnswered)
+  grammarAnswered: readStoredNumber(STORAGE_KEYS.grammarAnswered),
+  vocabErrors: storedErrors.vocab,
+  grammarErrors: storedErrors.grammar
 };
 
 function shuffle(list) {
@@ -85,17 +108,35 @@ let vocabIndex = 0;
 let grammarDeck = shuffle(grammarBank);
 let grammarIndex = 0;
 
-function renderProgress() {
+function pendingErrorCount() {
+  return progress.vocabErrors.length + progress.grammarErrors.length;
+}
+
+function getVocabErrors() {
+  return vocabBank.filter(item => progress.vocabErrors.includes(item.id));
+}
+
+function getGrammarErrors() {
+  return grammarBank.filter(item => progress.grammarErrors.includes(item.id));
+}
+
+function addError(type, id) {
+  const key = type === 'vocab' ? 'vocabErrors' : 'grammarErrors';
+  if (!progress[key].includes(id)) progress[key].push(id);
+}
+
+function resolveError(type, id) {
+  const key = type === 'vocab' ? 'vocabErrors' : 'grammarErrors';
+  progress[key] = progress[key].filter(itemId => itemId !== id);
+}
+
+function renderProgress(message = '') {
   const totalAnswered = progress.vocabAnswered + progress.grammarAnswered;
   const totalCorrect = progress.vocabCorrect + progress.grammarCorrect;
+  const errors = pendingErrorCount();
 
-  if (vocabProgress) {
-    vocabProgress.textContent = `${progress.vocabCorrect} / ${progress.vocabAnswered}`;
-  }
-
-  if (grammarProgress) {
-    grammarProgress.textContent = `${progress.grammarCorrect} / ${progress.grammarAnswered}`;
-  }
+  if (vocabProgress) vocabProgress.textContent = `${progress.vocabCorrect} / ${progress.vocabAnswered}`;
+  if (grammarProgress) grammarProgress.textContent = `${progress.grammarCorrect} / ${progress.grammarAnswered}`;
 
   if (progressAccuracy) {
     progressAccuracy.textContent = totalAnswered
@@ -103,25 +144,42 @@ function renderProgress() {
       : '0%';
   }
 
+  if (reviewErrors) {
+    reviewErrors.textContent = reviewMode
+      ? 'Volver a práctica normal'
+      : errors
+        ? `Repasar errores (${errors})`
+        : 'Repasar errores';
+    reviewErrors.setAttribute('aria-pressed', String(reviewMode));
+  }
+
   if (storageNotice) {
-    storageNotice.textContent = storageAvailable
-      ? 'Progreso guardado localmente en este navegador.'
-      : 'El almacenamiento local no está disponible; el progreso se conservará solo durante esta sesión.';
+    storageNotice.textContent = message || (storageAvailable
+      ? errors
+        ? `${errors} ${errors === 1 ? 'error pendiente' : 'errores pendientes'} para repasar. El progreso se guarda localmente en este navegador.`
+        : 'Progreso guardado localmente en este navegador. No hay errores pendientes.'
+      : errors
+        ? `${errors} ${errors === 1 ? 'error pendiente' : 'errores pendientes'} para repasar durante esta sesión.`
+        : 'El almacenamiento local no está disponible; el progreso se conservará solo durante esta sesión.');
   }
 }
 
-function saveProgress() {
+function saveProgress(message = '') {
   if (storageAvailable) {
     try {
       Object.entries(STORAGE_KEYS).forEach(([property, key]) => {
         localStorage.setItem(key, String(progress[property]));
       });
+      localStorage.setItem(ERROR_STORAGE_KEY, JSON.stringify({
+        vocab: progress.vocabErrors,
+        grammar: progress.grammarErrors
+      }));
     } catch {
       storageAvailable = false;
     }
   }
 
-  renderProgress();
+  renderProgress(message);
 }
 
 function renderOptions(container, options, onSelect) {
@@ -138,17 +196,57 @@ function renderOptions(container, options, onSelect) {
   });
 }
 
+function renderVocabEmptyReview() {
+  if (vocabCategory) vocabCategory.textContent = 'VOCABULARY · REPASO';
+  if (word) word.textContent = '✓';
+  if (answers) answers.innerHTML = '';
+  if (feedback) feedback.textContent = 'No hay errores pendientes de vocabulario.';
+  if (nextQuestion) {
+    nextQuestion.disabled = true;
+    nextQuestion.textContent = 'Sin errores pendientes';
+  }
+}
+
+function renderGrammarEmptyReview() {
+  const grammarLabel = grammarSentence?.closest('.quiz-card')?.querySelector('.quiz-label');
+  if (grammarLabel) grammarLabel.textContent = 'GRAMMAR · REPASO';
+  if (grammarSentence) grammarSentence.textContent = '✓ Sin errores pendientes';
+  if (grammarAnswers) grammarAnswers.innerHTML = '';
+  if (grammarFeedback) grammarFeedback.textContent = 'No hay errores pendientes de gramática.';
+  if (nextGrammar) {
+    nextGrammar.disabled = true;
+    nextGrammar.textContent = 'Sin errores pendientes';
+  }
+}
+
 function renderVocab() {
   if (!word || !answers || !feedback) return;
 
+  if (reviewMode && !vocabDeck.length) {
+    renderVocabEmptyReview();
+    return;
+  }
+
   const question = vocabDeck[vocabIndex];
+  if (!question) return;
+
   word.textContent = question.w;
 
   if (vocabCategory) {
-    vocabCategory.textContent = `VOCABULARY · ${question.cat}`;
+    vocabCategory.textContent = reviewMode
+      ? `VOCABULARY · REPASO · ${question.cat}`
+      : `VOCABULARY · ${question.cat}`;
   }
 
-  feedback.textContent = 'Selecciona la traducción correcta.';
+  feedback.textContent = reviewMode
+    ? 'Repasa este error y selecciona la traducción correcta.'
+    : 'Selecciona la traducción correcta.';
+
+  if (nextQuestion) {
+    nextQuestion.disabled = false;
+    nextQuestion.textContent = reviewMode ? 'Siguiente error' : 'Siguiente palabra';
+  }
+
   renderOptions(answers, question.a, (option, button) => checkVocab(option, button, question));
 }
 
@@ -160,16 +258,26 @@ function checkVocab(option, button, question) {
     item.disabled = true;
   });
 
-  progress.vocabAnswered += 1;
+  const correct = option === question.c;
 
-  if (option === question.c) {
-    progress.vocabCorrect += 1;
+  if (!reviewMode) {
+    progress.vocabAnswered += 1;
+    if (correct) progress.vocabCorrect += 1;
+  }
+
+  if (correct) {
+    resolveError('vocab', question.id);
     button.classList.add('correct');
-    feedback.textContent = `Correcto. ${question.w} significa ${question.c}.`;
+    feedback.textContent = reviewMode
+      ? `Correcto. ${question.w} significa ${question.c}. Este error quedó resuelto.`
+      : `Correcto. ${question.w} significa ${question.c}.`;
   } else {
+    addError('vocab', question.id);
     button.classList.add('wrong');
     buttons.find(item => item.textContent === question.c)?.classList.add('correct');
-    feedback.textContent = `La respuesta correcta es ${question.c}.`;
+    feedback.textContent = reviewMode
+      ? `Aún pendiente. La respuesta correcta es ${question.c}.`
+      : `La respuesta correcta es ${question.c}. Se añadió al repaso de errores.`;
   }
 
   saveProgress();
@@ -178,9 +286,32 @@ function checkVocab(option, button, question) {
 function renderGrammar() {
   if (!grammarSentence || !grammarAnswers || !grammarFeedback) return;
 
+  const grammarLabel = grammarSentence.closest('.quiz-card')?.querySelector('.quiz-label');
+
+  if (reviewMode && !grammarDeck.length) {
+    renderGrammarEmptyReview();
+    return;
+  }
+
   const question = grammarDeck[grammarIndex];
+  if (!question) return;
+
+  if (grammarLabel) {
+    grammarLabel.textContent = reviewMode
+      ? 'GRAMMAR · REPASO'
+      : 'GRAMMAR · Completa la oración';
+  }
+
   grammarSentence.textContent = question.s;
-  grammarFeedback.textContent = 'Selecciona la opción correcta.';
+  grammarFeedback.textContent = reviewMode
+    ? 'Repasa este error y selecciona la opción correcta.'
+    : 'Selecciona la opción correcta.';
+
+  if (nextGrammar) {
+    nextGrammar.disabled = false;
+    nextGrammar.textContent = reviewMode ? 'Siguiente error' : 'Siguiente oración';
+  }
+
   renderOptions(grammarAnswers, question.a, (option, button) => checkGrammar(option, button, question));
 }
 
@@ -192,22 +323,77 @@ function checkGrammar(option, button, question) {
     item.disabled = true;
   });
 
-  progress.grammarAnswered += 1;
+  const correct = option === question.c;
 
-  if (option === question.c) {
-    progress.grammarCorrect += 1;
+  if (!reviewMode) {
+    progress.grammarAnswered += 1;
+    if (correct) progress.grammarCorrect += 1;
+  }
+
+  if (correct) {
+    resolveError('grammar', question.id);
     button.classList.add('correct');
-    grammarFeedback.textContent = `Correcto. ${question.e}`;
+    grammarFeedback.textContent = reviewMode
+      ? `Correcto. ${question.e} Este error quedó resuelto.`
+      : `Correcto. ${question.e}`;
   } else {
+    addError('grammar', question.id);
     button.classList.add('wrong');
     buttons.find(item => item.textContent === question.c)?.classList.add('correct');
-    grammarFeedback.textContent = `Respuesta correcta: ${question.c}. ${question.e}`;
+    grammarFeedback.textContent = reviewMode
+      ? `Aún pendiente. Respuesta correcta: ${question.c}. ${question.e}`
+      : `Respuesta correcta: ${question.c}. ${question.e} Se añadió al repaso de errores.`;
   }
 
   saveProgress();
 }
 
+function refreshVocabReview() {
+  vocabDeck = shuffle(getVocabErrors());
+  vocabIndex = 0;
+  renderVocab();
+}
+
+function refreshGrammarReview() {
+  grammarDeck = shuffle(getGrammarErrors());
+  grammarIndex = 0;
+  renderGrammar();
+}
+
+function startErrorReview() {
+  const errors = pendingErrorCount();
+
+  if (!errors) {
+    renderProgress('No hay errores pendientes. Sigue practicando para generar una cola de repaso cuando sea necesaria.');
+    return;
+  }
+
+  reviewMode = true;
+  refreshVocabReview();
+  refreshGrammarReview();
+  renderProgress(`Modo repaso activo: ${errors} ${errors === 1 ? 'error pendiente' : 'errores pendientes'}. Los aciertos del repaso resuelven la cola sin alterar la precisión histórica.`);
+  document.querySelector('#practica')?.scrollIntoView({
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+  });
+}
+
+function exitErrorReview(message = 'Has vuelto a la práctica normal.') {
+  reviewMode = false;
+  vocabDeck = shuffle(vocabBank);
+  vocabIndex = 0;
+  grammarDeck = shuffle(grammarBank);
+  grammarIndex = 0;
+  renderVocab();
+  renderGrammar();
+  renderProgress(message);
+}
+
 nextQuestion?.addEventListener('click', () => {
+  if (reviewMode) {
+    refreshVocabReview();
+    return;
+  }
+
   vocabIndex += 1;
 
   if (vocabIndex >= vocabDeck.length) {
@@ -219,6 +405,11 @@ nextQuestion?.addEventListener('click', () => {
 });
 
 nextGrammar?.addEventListener('click', () => {
+  if (reviewMode) {
+    refreshGrammarReview();
+    return;
+  }
+
   grammarIndex += 1;
 
   if (grammarIndex >= grammarDeck.length) {
@@ -230,8 +421,10 @@ nextGrammar?.addEventListener('click', () => {
 });
 
 reviewErrors?.addEventListener('click', () => {
-  if (storageNotice) {
-    storageNotice.textContent = 'El repaso adaptativo de errores se incorporará en la siguiente ampliación del banco.';
+  if (reviewMode) {
+    exitErrorReview();
+  } else {
+    startErrorReview();
   }
 });
 
@@ -240,10 +433,12 @@ resetProgress?.addEventListener('click', () => {
   progress.vocabAnswered = 0;
   progress.grammarCorrect = 0;
   progress.grammarAnswered = 0;
+  progress.vocabErrors = [];
+  progress.grammarErrors = [];
 
   if (storageAvailable) {
     try {
-      [...Object.values(STORAGE_KEYS), ...LEGACY_STORAGE_KEYS].forEach(key => {
+      [...Object.values(STORAGE_KEYS), ERROR_STORAGE_KEY, ...LEGACY_STORAGE_KEYS].forEach(key => {
         localStorage.removeItem(key);
       });
     } catch {
@@ -251,7 +446,11 @@ resetProgress?.addEventListener('click', () => {
     }
   }
 
-  renderProgress();
+  if (reviewMode) {
+    exitErrorReview('Progreso y cola de errores reiniciados.');
+  } else {
+    renderProgress('Progreso y cola de errores reiniciados.');
+  }
 });
 
 menu?.addEventListener('click', () => {
