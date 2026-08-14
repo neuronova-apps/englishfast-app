@@ -53,6 +53,10 @@ El MVP web incluye:
 - retroalimentación contextual de vocabulario con significado, contraste semántico y ejemplo de uso;
 - retroalimentación gramatical con regla aplicada y oración completa correcta;
 - identificación de la opción elegida cuando la respuesta es incorrecta;
+- agrupación semántica de las opciones de respuesta con nombre y descripción asociados a la pregunta actual;
+- movimiento controlado del foco al resultado después de responder y al nuevo bloque de práctica después de avanzar;
+- anuncios accesibles sin duplicar simultáneamente resultado, feedback y estado de progreso;
+- foco visible reforzado en respuestas, filtros, navegación entre ejercicios y acciones de progreso;
 - progreso local diferenciado de vocabulario y gramática;
 - precisión total calculada en el dispositivo;
 - historial local por ejercicio con intentos, aciertos, errores y actividad de repaso;
@@ -78,8 +82,9 @@ Las respuestas realizadas durante el modo de repaso no modifican la precisión h
 - `content.js`: banco educativo organizado por identificador, nivel y tema, incluidos ejemplos de uso y contrastes de vocabulario.
 - `script.js`: rutas guiadas, explicaciones temáticas, filtros, ejercicios, resultados, progreso global y por ejercicio, cola de errores, modo de repaso, almacenamiento seguro y navegación móvil.
 - `feedback.js`: capa de retroalimentación pedagógica contextual para vocabulario y gramática.
+- `exercise-accessibility.js`: semántica de grupos de respuesta, gestión del foco y coordinación de anuncios accesibles de las rutas.
 - `styles.css`: estilos base, layout general y componentes compartidos.
-- `practice.css`: estilos de filtros, rutas guiadas, etapas de aprendizaje, historial por ejercicio y progreso.
+- `practice.css`: estilos de filtros, rutas guiadas, etapas de aprendizaje, historial por ejercicio, progreso y foco visible específico de la práctica.
 - `hero-orbit.css`: estilos y animaciones del sistema orbital del hero.
 - `shell.css`: ajustes de marca y estructura compartida del footer.
 - `privacy/index.html`: versión web pública de la política de privacidad.
@@ -87,7 +92,7 @@ Las respuestas realizadas durante el modo de repaso no modifican la precisión h
 - `sitemap.xml`: URLs públicas indexables.
 - `.nojekyll`: publicación estática directa mediante GitHub Pages.
 
-La separación de `content.js` evita mezclar el banco educativo con la lógica de interacción y permite ampliar niveles y temas sin reescribir el sistema de progreso. `feedback.js` reutiliza ese contenido para enriquecer el resultado después de cada respuesta sin duplicar el seguimiento ni la navegación de las rutas.
+La separación de `content.js` evita mezclar el banco educativo con la lógica de interacción y permite ampliar niveles y temas sin reescribir el sistema de progreso. `feedback.js` reutiliza ese contenido para enriquecer el resultado después de cada respuesta sin duplicar el seguimiento ni la navegación de las rutas. `exercise-accessibility.js` mantiene la gestión semántica y de foco fuera de esa lógica funcional.
 
 ## Próximas ampliaciones
 
@@ -109,7 +114,11 @@ La versión actual no requiere cuenta, no utiliza publicidad ni seguimiento y no
 
 ## Accesibilidad
 
-English Fast utiliza el núcleo compartido de accesibilidad de Neuronova Apps y mantiene navegación por teclado, foco visible, diseño adaptable y compatibilidad con preferencias de reducción de movimiento.
+English Fast utiliza el núcleo compartido de accesibilidad de Neuronova Apps y mantiene navegación por teclado, diseño adaptable y compatibilidad con preferencias de reducción de movimiento.
+
+En las rutas de aprendizaje, las opciones se exponen como grupos relacionados con la pregunta y su contexto. Después de responder, el foco pasa al resultado pedagógico final; al solicitar el ejercicio siguiente, pasa al nuevo bloque de práctica. Los filtros conservan el foco mientras su resumen se anuncia de forma independiente. El reinicio del progreso lleva el foco al mensaje de estado resultante. Los mensajes de feedback y progreso que acompañan una respuesta no utilizan regiones vivas paralelas, evitando anuncios repetidos del mismo evento.
+
+Los botones de respuesta, filtros, acciones de avance y controles de progreso cuentan con indicadores de foco visibles específicos, además de las preferencias globales ofrecidas por el módulo central de accesibilidad.
 
 ## Ecosistema
 
