@@ -28,6 +28,8 @@ El MVP web incluye:
 - categorías visibles en vocabulario;
 - progreso local diferenciado de vocabulario y gramática;
 - precisión total calculada en el dispositivo;
+- cola local de errores pendientes para vocabulario y gramática;
+- modo de repaso que vuelve a presentar los ejercicios fallados hasta resolverlos;
 - funcionamiento de los ejercicios aunque `localStorage` no esté disponible;
 - diseño responsive;
 - navegación por teclado y cierre del menú con Escape;
@@ -35,7 +37,7 @@ El MVP web incluye:
 - política de privacidad pública;
 - metadatos SEO y sociales básicos.
 
-El progreso se almacena localmente en el navegador y no requiere cuenta ni base de datos remota.
+El progreso se almacena localmente en el navegador y no requiere cuenta ni base de datos remota. Los errores de vocabulario y gramática se guardan por ejercicio y se eliminan de la cola de repaso cuando la persona responde correctamente. Las respuestas realizadas durante el modo de repaso no modifican la precisión histórica acumulada.
 
 ## Arquitectura del repositorio
 
@@ -43,7 +45,7 @@ El progreso se almacena localmente en el navegador y no requiere cuenta ni base 
 - `styles.css`: estilos base, layout general y componentes compartidos.
 - `practice.css`: estilos exclusivos de práctica, gramática y progreso.
 - `hero-orbit.css`: estilos y animaciones del sistema orbital del hero.
-- `script.js`: bancos iniciales, ejercicios, progreso local, almacenamiento seguro y navegación móvil.
+- `script.js`: bancos iniciales, ejercicios, progreso local, cola de errores, modo de repaso, almacenamiento seguro y navegación móvil.
 - `privacy/index.html`: versión web pública de la política de privacidad.
 - `PRIVACY.md`: referencia documental de la política de privacidad.
 - `sitemap.xml`: URLs públicas indexables.
@@ -56,7 +58,6 @@ La lógica funcional se concentra en `script.js`; las dependencias activas se de
 - banco ampliado de vocabulario y gramática;
 - clasificación progresiva por niveles;
 - ejercicios de escritura y ordenamiento de frases;
-- repaso adaptativo de errores;
 - práctica auditiva;
 - pronunciación guiada;
 - logros, metas y minijuegos.
