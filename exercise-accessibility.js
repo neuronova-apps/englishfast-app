@@ -10,6 +10,8 @@
   const nextQuestion = document.querySelector('#nextQuestion');
   const nextGrammar = document.querySelector('#nextGrammar');
   const reviewErrors = document.querySelector('#reviewErrors');
+  const resetProgress = document.querySelector('#resetProgress');
+  const storageNotice = document.querySelector('#storageNotice');
   const filterSummary = document.querySelector('#filterSummary');
   const practiceLevel = document.querySelector('#practiceLevel');
   const vocabTopic = document.querySelector('#vocabTopic');
@@ -36,11 +38,13 @@
   configureFocusableRegion(grammarStage, 'Práctica de gramática');
   configureFocusableRegion(vocabResult, 'Resultado de vocabulario');
   configureFocusableRegion(grammarResult, 'Resultado de gramática');
+  configureFocusableRegion(storageNotice, 'Estado del progreso');
 
-  // El resultado recibe el foco después de responder; evitamos un segundo anuncio
-  // automático desde los textos de feedback para no duplicar información.
+  // El resultado recibe el foco después de responder. Se eliminan anuncios vivos
+  // paralelos para que una misma acción no produzca mensajes repetidos.
   vocabFeedback?.removeAttribute('aria-live');
   grammarFeedback?.removeAttribute('aria-live');
+  storageNotice?.removeAttribute('aria-live');
 
   [practiceLevel, vocabTopic, grammarTopic].forEach(select => {
     if (select && filterSummary) select.setAttribute('aria-describedby', 'filterSummary');
@@ -59,8 +63,8 @@
   }
 
   function focusFirstReviewRoute() {
-    const vocabHasExercise = Boolean(vocabAnswers?.querySelector('button:not([disabled])')) || Boolean(vocabAnswers?.querySelector('button'));
-    const grammarHasExercise = Boolean(grammarAnswers?.querySelector('button:not([disabled])')) || Boolean(grammarAnswers?.querySelector('button'));
+    const vocabHasExercise = Boolean(vocabAnswers?.querySelector('button'));
+    const grammarHasExercise = Boolean(grammarAnswers?.querySelector('button'));
 
     if (vocabHasExercise) focusLater(vocabStage);
     else if (grammarHasExercise) focusLater(grammarStage);
@@ -84,6 +88,11 @@
 
     if (event.target.closest('#nextGrammar')) {
       focusLater(grammarStage);
+      return;
+    }
+
+    if (event.target.closest('#resetProgress')) {
+      focusLater(storageNotice);
       return;
     }
 
