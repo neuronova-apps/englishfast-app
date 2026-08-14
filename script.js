@@ -11,17 +11,147 @@ const ERROR_STORAGE_KEY = 'ef-errors-v1';
 const ITEM_PROGRESS_KEY = 'ef-item-progress-v1';
 const LEGACY_STORAGE_KEYS = ['englishfast-score', 'englishfast-answered'];
 
+const VOCAB_GUIDES = {
+  Home: {
+    explanation: 'Reconoce palabras que nombran espacios y elementos habituales del hogar.',
+    example: 'Ejemplo: door significa puerta.'
+  },
+  Study: {
+    explanation: 'Relaciona vocabulario frecuente de estudio, escuela y aprendizaje con su significado.',
+    example: 'Ejemplo: class significa clase.'
+  },
+  'Daily life': {
+    explanation: 'Trabaja palabras que aparecen con frecuencia al describir actividades y situaciones cotidianas.',
+    example: 'Ejemplo: day significa día.'
+  },
+  People: {
+    explanation: 'Identifica palabras para hablar de personas, familia y relaciones cercanas.',
+    example: 'Ejemplo: sister significa hermana.'
+  },
+  Actions: {
+    explanation: 'Reconoce verbos frecuentes que expresan acciones habituales.',
+    example: 'Ejemplo: walk significa caminar.'
+  },
+  Time: {
+    explanation: 'Relaciona expresiones básicas para ubicar acciones y momentos en el tiempo.',
+    example: 'Ejemplo: yesterday significa ayer.'
+  },
+  Feelings: {
+    explanation: 'Identifica adjetivos utilizados para expresar estados de ánimo y sensaciones.',
+    example: 'Ejemplo: sad significa triste.'
+  },
+  Food: {
+    explanation: 'Reconoce vocabulario básico relacionado con alimentos y comidas.',
+    example: 'Ejemplo: milk significa leche.'
+  },
+  Travel: {
+    explanation: 'Practica palabras útiles para desplazamientos, transporte y viajes.',
+    example: 'Ejemplo: train significa tren.'
+  },
+  Work: {
+    explanation: 'Relaciona vocabulario frecuente de trabajo y situaciones laborales.',
+    example: 'Ejemplo: job significa trabajo o empleo.'
+  },
+  Health: {
+    explanation: 'Identifica palabras sencillas relacionadas con salud y atención personal.',
+    example: 'Ejemplo: sick significa enfermo o enferma.'
+  },
+  Connectors: {
+    explanation: 'Reconoce palabras que ayudan a relacionar ideas y explicar causas o secuencias.',
+    example: 'Ejemplo: but significa pero.'
+  },
+  Description: {
+    explanation: 'Practica adjetivos frecuentes para describir objetos, lugares y situaciones.',
+    example: 'Ejemplo: cheap significa barato o barata.'
+  }
+};
+
+const GRAMMAR_GUIDES = {
+  'Verb to be': {
+    explanation: 'El verbo to be cambia según el sujeto: am con I, is con he/she/it y are con you/we/they.',
+    example: 'Ejemplo: She is at home.'
+  },
+  'Present simple': {
+    explanation: 'El presente simple expresa hábitos y hechos. Con he, she o it suele añadirse -s al verbo afirmativo; las preguntas usan do o does.',
+    example: 'Ejemplo: He works every day. / Do you study English?'
+  },
+  Articles: {
+    explanation: 'A y an presentan sustantivos singulares no específicos; the señala algo específico o conocido en el contexto.',
+    example: 'Ejemplo: a book, an apple, the door.'
+  },
+  Pronouns: {
+    explanation: 'Los pronombres personales sustituyen nombres para evitar repeticiones y señalar quién realiza la acción.',
+    example: 'Ejemplo: Ana and I → We.'
+  },
+  Prepositions: {
+    explanation: 'Las preposiciones básicas ayudan a expresar posición. In suele indicar dentro y on contacto con una superficie.',
+    example: 'Ejemplo: The phone is on the table.'
+  },
+  'There is / are': {
+    explanation: 'There is presenta un elemento singular; there are presenta elementos plurales.',
+    example: 'Ejemplo: There is a book. / There are two books.'
+  },
+  Can: {
+    explanation: 'Can expresa capacidad o posibilidad y mantiene la misma forma con todos los sujetos.',
+    example: 'Ejemplo: We can swim.'
+  },
+  Possessives: {
+    explanation: 'Los adjetivos posesivos, como my, your o their, acompañan a un sustantivo para indicar pertenencia.',
+    example: 'Ejemplo: This is my bag.'
+  },
+  'Past simple': {
+    explanation: 'El pasado simple describe acciones terminadas. Algunos verbos son irregulares y cambian de forma.',
+    example: 'Ejemplo: We went home yesterday.'
+  },
+  Comparatives: {
+    explanation: 'Los comparativos contrastan dos elementos. Los adjetivos cortos suelen usar -er; los largos, more + adjetivo.',
+    example: 'Ejemplo: bigger than / more interesting than.'
+  },
+  'Going to': {
+    explanation: 'Be going to se usa para hablar de planes o intenciones futuras.',
+    example: 'Ejemplo: I am going to study tonight.'
+  },
+  'Present continuous': {
+    explanation: 'El presente continuo usa be + verbo en -ing para acciones que están ocurriendo alrededor del momento actual.',
+    example: 'Ejemplo: They are studying now.'
+  },
+  Quantifiers: {
+    explanation: 'Los cuantificadores expresan cantidad. Many acompaña sustantivos contables plurales y any es frecuente en preguntas y negativas.',
+    example: 'Ejemplo: How many books? / Do you have any questions?'
+  },
+  Should: {
+    explanation: 'Should se utiliza para dar consejos o recomendaciones y no cambia según el sujeto.',
+    example: 'Ejemplo: You should rest.'
+  },
+  Connectors: {
+    explanation: 'Los conectores unen ideas. Because introduce una causa; but contrasta y so puede introducir una consecuencia.',
+    example: 'Ejemplo: I stayed home because it was raining.'
+  }
+};
+
 const vocabCategory = document.querySelector('#vocabCategory');
 const word = document.querySelector('#questionWord');
 const answers = document.querySelector('#answers');
 const feedback = document.querySelector('#feedback');
 const nextQuestion = document.querySelector('#nextQuestion');
 const vocabItemStats = document.querySelector('#vocabItemStats');
+const vocabExplanation = document.querySelector('#vocabExplanation');
+const vocabExample = document.querySelector('#vocabExample');
+const vocabRoutePosition = document.querySelector('#vocabRoutePosition');
+const vocabResult = document.querySelector('#vocabResult');
+const vocabResultText = document.querySelector('#vocabResultText');
+
 const grammarSentence = document.querySelector('#grammarSentence');
 const grammarAnswers = document.querySelector('#grammarAnswers');
 const grammarFeedback = document.querySelector('#grammarFeedback');
 const nextGrammar = document.querySelector('#nextGrammar');
 const grammarItemStats = document.querySelector('#grammarItemStats');
+const grammarExplanation = document.querySelector('#grammarExplanation');
+const grammarExample = document.querySelector('#grammarExample');
+const grammarRoutePosition = document.querySelector('#grammarRoutePosition');
+const grammarResult = document.querySelector('#grammarResult');
+const grammarResultText = document.querySelector('#grammarResultText');
+
 const vocabProgress = document.querySelector('#vocabProgress');
 const grammarProgress = document.querySelector('#grammarProgress');
 const itemsPracticed = document.querySelector('#itemsPracticed');
@@ -206,13 +336,13 @@ function renderFilterSummary(message = '') {
   const vocabCount = getNormalVocabPool().length;
   const grammarCount = getNormalGrammarPool().length;
   const levelLabel = level === 'all' ? 'A1 + A2 inicial' : level;
-  filterSummary.textContent = `${levelLabel}: ${vocabCount} ejercicios de vocabulario y ${grammarCount} de gramática disponibles con los filtros actuales.`;
+  filterSummary.textContent = `${levelLabel}: ruta de vocabulario con ${vocabCount} ejercicios y ruta de gramática con ${grammarCount} ejercicios según los filtros actuales.`;
 }
 
 function resetNormalDecks() {
-  vocabDeck = shuffle(getNormalVocabPool());
+  vocabDeck = getNormalVocabPool();
   vocabIndex = 0;
-  grammarDeck = shuffle(getNormalGrammarPool());
+  grammarDeck = getNormalGrammarPool();
   grammarIndex = 0;
   renderVocab();
   renderGrammar();
@@ -223,7 +353,7 @@ function applyPracticeFilters() {
   const wasReviewing = reviewMode;
   reviewMode = false;
   resetNormalDecks();
-  renderProgress(wasReviewing ? 'Filtros aplicados. El modo repaso se cerró y volvió la práctica normal.' : 'Filtros de práctica actualizados.');
+  renderProgress(wasReviewing ? 'Filtros aplicados. El modo repaso se cerró y comenzó la ruta seleccionada.' : 'Ruta de práctica actualizada.');
 }
 
 function pendingErrorCount() {
@@ -327,7 +457,7 @@ function renderProgress(message = '') {
 
   if (reviewErrors) {
     reviewErrors.textContent = reviewMode
-      ? 'Volver a práctica normal'
+      ? 'Volver a rutas normales'
       : errors
         ? `Repasar errores (${errors})`
         : 'Repasar errores';
@@ -378,12 +508,42 @@ function renderOptions(container, options, onSelect) {
   });
 }
 
+function resetLessonResult(result, resultText) {
+  if (result) {
+    result.hidden = true;
+    result.classList.remove('is-correct', 'is-wrong');
+  }
+  if (resultText) resultText.textContent = '';
+}
+
+function showLessonResult(result, resultText, correct, text) {
+  if (!result || !resultText) return;
+  result.hidden = false;
+  result.classList.toggle('is-correct', correct);
+  result.classList.toggle('is-wrong', !correct);
+  resultText.textContent = text;
+}
+
+function routePosition(index, total, reviewing) {
+  if (!total) return 'Sin ejercicios disponibles';
+  return reviewing ? `Error ${index + 1} de ${total}` : `Ejercicio ${index + 1} de ${total}`;
+}
+
+function nextRouteLabel(index, total, reviewing, normalLabel) {
+  if (reviewing) return 'Siguiente error';
+  return index === total - 1 ? 'Reiniciar esta ruta' : normalLabel;
+}
+
 function renderVocabEmptyReview() {
   if (vocabCategory) vocabCategory.textContent = 'VOCABULARY · REPASO';
   if (word) word.textContent = '✓';
   if (answers) answers.innerHTML = '';
   if (feedback) feedback.textContent = 'No hay errores pendientes de vocabulario.';
   if (vocabItemStats) vocabItemStats.textContent = 'No hay ejercicios de vocabulario pendientes de repaso.';
+  if (vocabExplanation) vocabExplanation.textContent = 'La cola de vocabulario está resuelta.';
+  if (vocabExample) vocabExample.textContent = 'Puedes volver a la ruta normal o continuar resolviendo errores de gramática.';
+  if (vocabRoutePosition) vocabRoutePosition.textContent = 'Repaso completado';
+  resetLessonResult(vocabResult, vocabResultText);
   if (nextQuestion) {
     nextQuestion.disabled = true;
     nextQuestion.textContent = 'Sin errores pendientes';
@@ -397,6 +557,10 @@ function renderGrammarEmptyReview() {
   if (grammarAnswers) grammarAnswers.innerHTML = '';
   if (grammarFeedback) grammarFeedback.textContent = 'No hay errores pendientes de gramática.';
   if (grammarItemStats) grammarItemStats.textContent = 'No hay ejercicios de gramática pendientes de repaso.';
+  if (grammarExplanation) grammarExplanation.textContent = 'La cola de gramática está resuelta.';
+  if (grammarExample) grammarExample.textContent = 'Puedes volver a la ruta normal o continuar resolviendo errores de vocabulario.';
+  if (grammarRoutePosition) grammarRoutePosition.textContent = 'Repaso completado';
+  resetLessonResult(grammarResult, grammarResultText);
   if (nextGrammar) {
     nextGrammar.disabled = true;
     nextGrammar.textContent = 'Sin errores pendientes';
@@ -413,11 +577,26 @@ function renderVocab() {
 
   const question = vocabDeck[vocabIndex];
   if (!question) {
-    if (word) word.textContent = '—';
-    if (answers) answers.innerHTML = '';
-    if (feedback) feedback.textContent = 'No hay ejercicios de vocabulario con estos filtros.';
+    if (vocabCategory) vocabCategory.textContent = 'VOCABULARY';
+    word.textContent = '—';
+    answers.innerHTML = '';
+    feedback.textContent = 'No hay ejercicios de vocabulario con estos filtros.';
+    if (vocabExplanation) vocabExplanation.textContent = 'Cambia el nivel o el tema para iniciar una ruta con contenido disponible.';
+    if (vocabExample) vocabExample.textContent = 'Los filtros no eliminan tu historial.';
+    if (vocabRoutePosition) vocabRoutePosition.textContent = 'Sin ruta disponible';
+    if (vocabItemStats) vocabItemStats.textContent = '';
+    resetLessonResult(vocabResult, vocabResultText);
+    if (nextQuestion) {
+      nextQuestion.disabled = true;
+      nextQuestion.textContent = 'Sin ejercicios';
+    }
     return;
   }
+
+  const guide = VOCAB_GUIDES[question.cat] || {
+    explanation: 'Relaciona la palabra inglesa con su significado en español dentro del tema seleccionado.',
+    example: 'Observa el contexto temático antes de responder.'
+  };
 
   word.textContent = question.w;
 
@@ -427,13 +606,19 @@ function renderVocab() {
       : `VOCABULARY · ${question.level} · ${question.cat}`;
   }
 
+  if (vocabExplanation) vocabExplanation.textContent = guide.explanation;
+  if (vocabExample) vocabExample.textContent = guide.example;
+  if (vocabRoutePosition) vocabRoutePosition.textContent = routePosition(vocabIndex, vocabDeck.length, reviewMode);
+
   feedback.textContent = reviewMode
-    ? 'Repasa este error y selecciona la traducción correcta.'
-    : 'Selecciona la traducción correcta.';
+    ? 'Paso 3 · Práctica: vuelve a resolver este error.'
+    : 'Paso 3 · Práctica: selecciona la traducción correcta.';
+
+  resetLessonResult(vocabResult, vocabResultText);
 
   if (nextQuestion) {
-    nextQuestion.disabled = false;
-    nextQuestion.textContent = reviewMode ? 'Siguiente error' : 'Siguiente palabra';
+    nextQuestion.disabled = true;
+    nextQuestion.textContent = 'Responde para continuar';
   }
 
   renderItemHistory('vocab', question.id, vocabItemStats);
@@ -462,6 +647,14 @@ function checkVocab(option, button, question) {
     feedback.textContent = reviewMode
       ? `Correcto. ${question.w} significa ${question.c}. Este error quedó resuelto.`
       : `Correcto. ${question.w} significa ${question.c}.`;
+    showLessonResult(
+      vocabResult,
+      vocabResultText,
+      true,
+      reviewMode
+        ? 'Resultado: respuesta correcta y error resuelto. Ya no queda pendiente en la cola de vocabulario.'
+        : 'Resultado: respuesta correcta. El intento quedó registrado en tu historial individual.'
+    );
   } else {
     addError('vocab', question.id);
     button.classList.add('wrong');
@@ -469,6 +662,17 @@ function checkVocab(option, button, question) {
     feedback.textContent = reviewMode
       ? `Aún pendiente. La respuesta correcta es ${question.c}.`
       : `La respuesta correcta es ${question.c}. Se añadió al repaso de errores.`;
+    showLessonResult(
+      vocabResult,
+      vocabResultText,
+      false,
+      `Resultado: conviene repasar esta palabra. ${question.w} significa ${question.c}.`
+    );
+  }
+
+  if (nextQuestion) {
+    nextQuestion.disabled = false;
+    nextQuestion.textContent = nextRouteLabel(vocabIndex, vocabDeck.length, reviewMode, 'Siguiente palabra');
   }
 
   saveProgress();
@@ -491,8 +695,22 @@ function renderGrammar() {
     grammarSentence.textContent = '—';
     grammarAnswers.innerHTML = '';
     grammarFeedback.textContent = 'No hay ejercicios de gramática con estos filtros.';
+    if (grammarExplanation) grammarExplanation.textContent = 'Cambia el nivel o el tema para iniciar una ruta con contenido disponible.';
+    if (grammarExample) grammarExample.textContent = 'Los filtros no eliminan tu historial.';
+    if (grammarRoutePosition) grammarRoutePosition.textContent = 'Sin ruta disponible';
+    if (grammarItemStats) grammarItemStats.textContent = '';
+    resetLessonResult(grammarResult, grammarResultText);
+    if (nextGrammar) {
+      nextGrammar.disabled = true;
+      nextGrammar.textContent = 'Sin ejercicios';
+    }
     return;
   }
+
+  const guide = GRAMMAR_GUIDES[question.topic] || {
+    explanation: 'Observa la estructura gramatical del tema seleccionado antes de completar la oración.',
+    example: 'Lee el ejemplo y después aplica la misma idea al ejercicio.'
+  };
 
   if (grammarLabel) {
     grammarLabel.textContent = reviewMode
@@ -500,14 +718,20 @@ function renderGrammar() {
       : `GRAMMAR · ${question.level} · ${question.topic}`;
   }
 
+  if (grammarExplanation) grammarExplanation.textContent = guide.explanation;
+  if (grammarExample) grammarExample.textContent = guide.example;
+  if (grammarRoutePosition) grammarRoutePosition.textContent = routePosition(grammarIndex, grammarDeck.length, reviewMode);
+
   grammarSentence.textContent = question.s;
   grammarFeedback.textContent = reviewMode
-    ? 'Repasa este error y selecciona la opción correcta.'
-    : 'Selecciona la opción correcta.';
+    ? 'Paso 3 · Práctica: vuelve a resolver este error.'
+    : 'Paso 3 · Práctica: selecciona la opción que completa correctamente la oración.';
+
+  resetLessonResult(grammarResult, grammarResultText);
 
   if (nextGrammar) {
-    nextGrammar.disabled = false;
-    nextGrammar.textContent = reviewMode ? 'Siguiente error' : 'Siguiente oración';
+    nextGrammar.disabled = true;
+    nextGrammar.textContent = 'Responde para continuar';
   }
 
   renderItemHistory('grammar', question.id, grammarItemStats);
@@ -536,6 +760,14 @@ function checkGrammar(option, button, question) {
     grammarFeedback.textContent = reviewMode
       ? `Correcto. ${question.e} Este error quedó resuelto.`
       : `Correcto. ${question.e}`;
+    showLessonResult(
+      grammarResult,
+      grammarResultText,
+      true,
+      reviewMode
+        ? `Resultado: respuesta correcta y error resuelto. ${question.e}`
+        : `Resultado: respuesta correcta. ${question.e}`
+    );
   } else {
     addError('grammar', question.id);
     button.classList.add('wrong');
@@ -543,6 +775,17 @@ function checkGrammar(option, button, question) {
     grammarFeedback.textContent = reviewMode
       ? `Aún pendiente. Respuesta correcta: ${question.c}. ${question.e}`
       : `Respuesta correcta: ${question.c}. ${question.e} Se añadió al repaso de errores.`;
+    showLessonResult(
+      grammarResult,
+      grammarResultText,
+      false,
+      `Resultado: necesita repaso. La opción correcta es ${question.c}. ${question.e}`
+    );
+  }
+
+  if (nextGrammar) {
+    nextGrammar.disabled = false;
+    nextGrammar.textContent = nextRouteLabel(grammarIndex, grammarDeck.length, reviewMode, 'Siguiente oración');
   }
 
   saveProgress();
@@ -565,7 +808,7 @@ function startErrorReview() {
   const errors = pendingErrorCount();
 
   if (!errors) {
-    renderProgress('No hay errores pendientes. Sigue practicando para generar una cola de repaso cuando sea necesaria.');
+    renderProgress('No hay errores pendientes. Continúa las rutas normales para seguir practicando.');
     return;
   }
 
@@ -579,7 +822,7 @@ function startErrorReview() {
   });
 }
 
-function exitErrorReview(message = 'Has vuelto a la práctica normal.') {
+function exitErrorReview(message = 'Has vuelto a las rutas normales.') {
   reviewMode = false;
   resetNormalDecks();
   renderProgress(message);
@@ -594,7 +837,7 @@ nextQuestion?.addEventListener('click', () => {
   vocabIndex += 1;
 
   if (vocabIndex >= vocabDeck.length) {
-    vocabDeck = shuffle(getNormalVocabPool());
+    vocabDeck = getNormalVocabPool();
     vocabIndex = 0;
   }
 
@@ -610,7 +853,7 @@ nextGrammar?.addEventListener('click', () => {
   grammarIndex += 1;
 
   if (grammarIndex >= grammarDeck.length) {
-    grammarDeck = shuffle(getNormalGrammarPool());
+    grammarDeck = getNormalGrammarPool();
     grammarIndex = 0;
   }
 
