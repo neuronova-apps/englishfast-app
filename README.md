@@ -12,10 +12,17 @@ English Fast no sustituye un curso formal de idiomas ni una certificación acad�
 
 La propuesta se organiza en cuatro rutas:
 
-- **Vocabulario:** palabras y expresiones frecuentes organizadas por nivel y temas cotidianos.
-- **Gramática:** estructuras esenciales con ejemplos, explicación breve y ejercicios por tema.
+- **Vocabulario:** ruta guiada activa con palabras y expresiones frecuentes organizadas por nivel y temas cotidianos.
+- **Gramática:** ruta guiada activa con estructuras esenciales, explicación, ejemplo, práctica y resultado.
 - **Pronunciación:** futura práctica de escucha y repetición.
 - **Juegos:** futuros retos cortos para reforzar memoria y comprensión.
+
+Las dos rutas activas siguen una secuencia de cuatro pasos por ejercicio:
+
+1. explicación breve del tema;
+2. ejemplo relacionado;
+3. práctica interactiva;
+4. resultado con retroalimentación y registro local.
 
 La práctica actual utiliza las etiquetas **A1** y **A2 inicial** como organización pedagógica orientativa del contenido del MVP. Estas etiquetas no representan una evaluación oficial ni una certificación del nivel de la persona usuaria.
 
@@ -35,9 +42,12 @@ Los 18 ejercicios originales mantienen sus identificadores internos para conserv
 El MVP web incluye:
 
 - presentación del enfoque de aprendizaje;
-- rutas temáticas;
+- dos rutas guiadas activas: vocabulario y gramática;
 - filtros por nivel, tema de vocabulario y tema de gramática;
-- práctica interactiva de vocabulario y gramática;
+- secuencia explicación → ejemplo → práctica → resultado;
+- recorrido ordenado de los ejercicios dentro de la selección actual;
+- bloqueo del avance hasta responder el ejercicio actual;
+- retroalimentación inmediata y resultado explícito antes de continuar;
 - progreso local diferenciado de vocabulario y gramática;
 - precisión total calculada en el dispositivo;
 - historial local por ejercicio con intentos, aciertos, errores y actividad de repaso;
@@ -51,7 +61,7 @@ El MVP web incluye:
 - política de privacidad pública;
 - metadatos SEO y sociales básicos.
 
-Cambiar los filtros de nivel o tema no elimina el progreso. El modo de repaso utiliza todos los errores pendientes, independientemente de los filtros seleccionados.
+Cambiar los filtros de nivel o tema reinicia la posición visual de la ruta seleccionada, pero no elimina el progreso. Las rutas normales mantienen un orden estable dentro del banco filtrado; el modo de repaso puede presentar los errores pendientes en otro orden y no se limita por los filtros seleccionados.
 
 El progreso se almacena localmente en el navegador y no requiere cuenta ni base de datos remota. Los contadores globales conservan la precisión histórica de la práctica normal. Además, cada ejercicio mantiene un registro propio de intentos, aciertos, errores, intentos de repaso, última respuesta y última actividad. Los errores de vocabulario y gramática se eliminan de la cola de repaso cuando la persona responde correctamente.
 
@@ -59,11 +69,11 @@ Las respuestas realizadas durante el modo de repaso no modifican la precisión h
 
 ## Arquitectura del repositorio
 
-- `index.html`: interfaz principal, filtros y estructura semántica del MVP.
+- `index.html`: interfaz principal, filtros, estructura semántica y cuatro etapas visibles de las rutas.
 - `content.js`: banco educativo organizado por identificador, nivel y tema.
-- `script.js`: filtros, ejercicios, progreso global y por ejercicio, cola de errores, modo de repaso, almacenamiento seguro y navegación móvil.
+- `script.js`: rutas guiadas, explicaciones temáticas, filtros, ejercicios, resultados, progreso global y por ejercicio, cola de errores, modo de repaso, almacenamiento seguro y navegación móvil.
 - `styles.css`: estilos base, layout general y componentes compartidos.
-- `practice.css`: estilos exclusivos de filtros, práctica, historial por ejercicio, gramática y progreso.
+- `practice.css`: estilos de filtros, rutas guiadas, etapas de aprendizaje, historial por ejercicio y progreso.
 - `hero-orbit.css`: estilos y animaciones del sistema orbital del hero.
 - `shell.css`: ajustes de marca y estructura compartida del footer.
 - `privacy/index.html`: versión web pública de la política de privacidad.
@@ -75,7 +85,7 @@ La separación de `content.js` evita mezclar el banco educativo con la lógica d
 
 ## Próximas ampliaciones
 
-- rutas guiadas con explicación, ejemplo, práctica y cierre por unidad;
+- unidades más extensas con varios ejercicios y cierre temático;
 - mayor profundidad de contenido dentro de cada nivel y tema;
 - ejercicios de escritura y ordenamiento de frases;
 - práctica auditiva;
