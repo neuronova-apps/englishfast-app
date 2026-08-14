@@ -8,6 +8,13 @@ El proyecto busca facilitar una experiencia de aprendizaje clara y accesible par
 
 English Fast no sustituye un curso formal de idiomas ni una certificación académica. Funciona como recurso complementario de práctica y refuerzo.
 
+## Documentación
+
+La documentación estructurada del producto se encuentra en [`docs/`](docs/README.md):
+
+- [`docs/ALCANCE.md`](docs/ALCANCE.md): funciones actuales, límites del MVP y funcionalidades futuras;
+- [`docs/ROADMAP.md`](docs/ROADMAP.md): etapas y prioridades de desarrollo posteriores al MVP actual.
+
 ## Estructura de aprendizaje
 
 La propuesta se organiza en cuatro rutas:
@@ -102,6 +109,7 @@ Las respuestas realizadas durante el modo de repaso no modifican la precisión h
 - `resources.css`: presentación compartida de las páginas educativas independientes.
 - `vocabulario-ingles-basico.html`, `gramatica-ingles-basica.html`, `verbo-to-be.html`, `presente-simple-ingles.html` y `como-aprender-ingles.html`: contenido educativo público e indexable.
 - `assets/social/englishfast-social.png`: tarjeta social común en formato PNG 1200 × 630 para Open Graph y Twitter.
+- `docs/README.md`, `docs/ALCANCE.md` y `docs/ROADMAP.md`: índice documental, alcance vigente y planificación del producto.
 - `hero-orbit.css`: estilos y animaciones del sistema orbital del hero.
 - `shell.css`: ajustes de marca y estructura compartida del footer.
 - `privacy/index.html`: versión web pública de la política de privacidad.
@@ -113,13 +121,7 @@ La separación de `content.js` evita mezclar el banco educativo con la lógica d
 
 ## Próximas ampliaciones
 
-- unidades más extensas con varios ejercicios y cierre temático;
-- mayor profundidad de contenido dentro de cada nivel y tema;
-- ejercicios de escritura y ordenamiento de frases;
-- práctica auditiva;
-- pronunciación guiada;
-- práctica adaptativa más profunda basada en historial;
-- logros, metas y minijuegos.
+El detalle y la prioridad de las próximas etapas se mantienen en [`docs/ROADMAP.md`](docs/ROADMAP.md). A nivel general se contemplan mayor profundidad educativa, escritura y ordenamiento de frases, QA formal, práctica adaptativa, audio y pronunciación, y solo después funciones de gamificación o móvil.
 
 ## Privacidad
 
