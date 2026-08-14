@@ -50,7 +50,7 @@
 }
 
 .outer-item {
-  animation: efOuterReadable 42s linear infinite reverse;
+  animation: efOuterReadable 42s linear infinite;
 }
 
 .inner-item {
