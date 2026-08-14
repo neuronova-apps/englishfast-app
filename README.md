@@ -12,10 +12,23 @@ English Fast no sustituye un curso formal de idiomas ni una certificación acad�
 
 La propuesta se organiza en cuatro rutas:
 
-- Vocabulario: palabras y expresiones frecuentes organizadas por temas.
-- Gramática: estructuras esenciales con ejemplos y ejercicios breves.
-- Pronunciación: futura práctica de escucha y repetición.
-- Juegos: retos cortos para reforzar memoria y comprensión.
+- **Vocabulario:** palabras y expresiones frecuentes organizadas por nivel y temas cotidianos.
+- **Gramática:** estructuras esenciales con ejemplos, explicación breve y ejercicios por tema.
+- **Pronunciación:** futura práctica de escucha y repetición.
+- **Juegos:** futuros retos cortos para reforzar memoria y comprensión.
+
+La práctica actual utiliza las etiquetas **A1** y **A2 inicial** como organización pedagógica orientativa del contenido del MVP. Estas etiquetas no representan una evaluación oficial ni una certificación del nivel de la persona usuaria.
+
+## Contenido actual
+
+El banco activo contiene **68 ejercicios**:
+
+- **40 ejercicios de vocabulario**;
+- **28 ejercicios de gramática**.
+
+El contenido se distribuye entre A1 y A2 inicial. Vocabulario incluye temas como hogar, estudio, vida diaria, personas, acciones, tiempo, emociones, comida, viajes, trabajo, salud, conectores y descripción. Gramática incluye `verb to be`, presente simple, artículos, pronombres, preposiciones, `there is / there are`, `can`, posesivos, pasado simple, comparativos, `going to`, presente continuo, cuantificadores, `should` y conectores.
+
+Los 18 ejercicios originales mantienen sus identificadores internos para conservar compatibilidad con el historial local y la cola de errores ya existente.
 
 ## Experiencia web actual
 
@@ -23,9 +36,8 @@ El MVP web incluye:
 
 - presentación del enfoque de aprendizaje;
 - rutas temáticas;
-- práctica interactiva de vocabulario;
-- práctica básica de gramática;
-- categorías visibles en vocabulario;
+- filtros por nivel, tema de vocabulario y tema de gramática;
+- práctica interactiva de vocabulario y gramática;
 - progreso local diferenciado de vocabulario y gramática;
 - precisión total calculada en el dispositivo;
 - historial local por ejercicio con intentos, aciertos, errores y actividad de repaso;
@@ -39,31 +51,36 @@ El MVP web incluye:
 - política de privacidad pública;
 - metadatos SEO y sociales básicos.
 
-El progreso se almacena localmente en el navegador y no requiere cuenta ni base de datos remota. Los contadores globales conservan la precisión histórica de la práctica normal. Además, cada ejercicio mantiene desde esta versión un registro propio de intentos, aciertos, errores, intentos de repaso, última respuesta y última actividad. Los errores de vocabulario y gramática se eliminan de la cola de repaso cuando la persona responde correctamente.
+Cambiar los filtros de nivel o tema no elimina el progreso. El modo de repaso utiliza todos los errores pendientes, independientemente de los filtros seleccionados.
 
-Las respuestas realizadas durante el modo de repaso no modifican la precisión histórica acumulada, pero sí quedan registradas dentro del historial específico del ejercicio. Los contadores globales existentes de versiones anteriores se conservan; el historial individual empieza a acumular datos desde la incorporación de esta función.
+El progreso se almacena localmente en el navegador y no requiere cuenta ni base de datos remota. Los contadores globales conservan la precisión histórica de la práctica normal. Además, cada ejercicio mantiene un registro propio de intentos, aciertos, errores, intentos de repaso, última respuesta y última actividad. Los errores de vocabulario y gramática se eliminan de la cola de repaso cuando la persona responde correctamente.
+
+Las respuestas realizadas durante el modo de repaso no modifican la precisión histórica acumulada, pero sí quedan registradas dentro del historial específico del ejercicio. Los contadores globales existentes de versiones anteriores se conservan; el historial individual empieza a acumular datos desde la incorporación de esa función.
 
 ## Arquitectura del repositorio
 
-- `index.html`: interfaz principal y estructura semántica del MVP.
+- `index.html`: interfaz principal, filtros y estructura semántica del MVP.
+- `content.js`: banco educativo organizado por identificador, nivel y tema.
+- `script.js`: filtros, ejercicios, progreso global y por ejercicio, cola de errores, modo de repaso, almacenamiento seguro y navegación móvil.
 - `styles.css`: estilos base, layout general y componentes compartidos.
-- `practice.css`: estilos exclusivos de práctica, historial por ejercicio, gramática y progreso.
+- `practice.css`: estilos exclusivos de filtros, práctica, historial por ejercicio, gramática y progreso.
 - `hero-orbit.css`: estilos y animaciones del sistema orbital del hero.
-- `script.js`: bancos iniciales, ejercicios, progreso global y por ejercicio, cola de errores, modo de repaso, almacenamiento seguro y navegación móvil.
+- `shell.css`: ajustes de marca y estructura compartida del footer.
 - `privacy/index.html`: versión web pública de la política de privacidad.
 - `PRIVACY.md`: referencia documental de la política de privacidad.
 - `sitemap.xml`: URLs públicas indexables.
 - `.nojekyll`: publicación estática directa mediante GitHub Pages.
 
-La lógica funcional se concentra en `script.js`; las dependencias activas se declaran directamente desde `index.html` y no se mantienen capas de compatibilidad paralelas ni archivos orbitales alternativos fuera de la carga efectiva de la aplicación.
+La separación de `content.js` evita mezclar el banco educativo con la lógica de interacción y permite ampliar niveles y temas sin reescribir el sistema de progreso.
 
 ## Próximas ampliaciones
 
-- banco ampliado de vocabulario y gramática;
-- clasificación progresiva por niveles;
+- rutas guiadas con explicación, ejemplo, práctica y cierre por unidad;
+- mayor profundidad de contenido dentro de cada nivel y tema;
 - ejercicios de escritura y ordenamiento de frases;
 - práctica auditiva;
 - pronunciación guiada;
+- práctica adaptativa más profunda basada en historial;
 - logros, metas y minijuegos.
 
 ## Privacidad
