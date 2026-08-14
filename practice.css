@@ -13,6 +13,14 @@
   margin: 14px 0 24px;
 }
 
+.item-stats {
+  min-height: 24px;
+  margin: -8px 0 18px;
+  color: var(--muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+
 .progress-row {
   display: flex;
   justify-content: space-between;
