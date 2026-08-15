@@ -17,6 +17,39 @@
   const vocabTopic = document.querySelector('#vocabTopic');
   const grammarTopic = document.querySelector('#grammarTopic');
 
+  function normalizeFooter() {
+    const footer = document.querySelector('.site-footer');
+    const columns = [...document.querySelectorAll('.site-footer .footer-column')];
+    const explore = columns[0];
+    const contact = columns[1];
+    const footerBottom = document.querySelector('.site-footer .footer-bottom');
+
+    if (explore && !explore.querySelector('a[href*="github.com/neuronova-apps/englishfast-app"]')) {
+      const github = document.createElement('a');
+      github.href = 'https://github.com/neuronova-apps/englishfast-app';
+      github.target = '_blank';
+      github.rel = 'noopener noreferrer';
+      github.textContent = 'GitHub';
+      explore.appendChild(github);
+    }
+
+    if (contact) {
+      contact.innerHTML = `
+        <h2>Contacto</h2>
+        <a href="mailto:berm_km@hotmail.com">berm_km@hotmail.com</a>
+        <span>Pucallpa, Ucayali · Perú</span>
+        <span>Proyecto independiente</span>`;
+    }
+
+    if (footerBottom) {
+      footerBottom.innerHTML = `
+        <p>© 2026 English Fast · Neuronova Apps</p>
+        <p><a href="privacy/">Política de privacidad</a></p>`;
+    }
+
+    if (footer) footer.dataset.footerUnified = 'true';
+  }
+
   function configureAnswerGroup(container, labelIds, descriptionIds) {
     if (!container) return;
     container.setAttribute('role', 'group');
@@ -30,6 +63,8 @@
     element.setAttribute('role', 'region');
     element.setAttribute('aria-label', label);
   }
+
+  normalizeFooter();
 
   configureAnswerGroup(vocabAnswers, ['vocabCategory', 'questionWord'], ['vocabItemStats', 'feedback']);
   configureAnswerGroup(grammarAnswers, ['grammarSentence'], ['grammarItemStats', 'grammarFeedback']);
