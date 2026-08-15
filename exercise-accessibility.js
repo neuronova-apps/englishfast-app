@@ -75,8 +75,6 @@
   configureFocusableRegion(grammarResult, 'Resultado de gramática');
   configureFocusableRegion(storageNotice, 'Estado del progreso');
 
-  // El resultado recibe el foco después de responder. Se eliminan anuncios vivos
-  // paralelos para que una misma acción no produzca mensajes repetidos.
   vocabFeedback?.removeAttribute('aria-live');
   grammarFeedback?.removeAttribute('aria-live');
   storageNotice?.removeAttribute('aria-live');
@@ -139,4 +137,29 @@
       });
     }
   });
+})();
+
+(() => {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    '@id': 'https://neuronova-apps.github.io/englishfast-app/#app',
+    name: 'English Fast',
+    url: 'https://neuronova-apps.github.io/englishfast-app/',
+    description: 'Experiencia educativa web para practicar vocabulario, gramática y comprensión del inglés con sesiones breves y progreso local.',
+    applicationCategory: 'EducationalApplication',
+    operatingSystem: 'Web',
+    inLanguage: 'es-PE',
+    applicationSuite: 'Neuronova Apps',
+    image: 'https://neuronova-apps.github.io/englishfast-app/assets/social/englishfast-social.png',
+    featureList: ['Práctica de vocabulario', 'Práctica de gramática', 'Contenido inicial A1 y A2', 'Progreso local por ejercicio', 'Repaso de errores', 'Recursos educativos públicos'],
+    isPartOf: {'@id': 'https://neuronova-apps.github.io/#website'}
+  };
+  if (!document.querySelector('script[data-neuronova-schema="true"]')) {
+    const schema = document.createElement('script');
+    schema.type = 'application/ld+json';
+    schema.dataset.neuronovaSchema = 'true';
+    schema.textContent = JSON.stringify(structuredData);
+    document.head.appendChild(schema);
+  }
 })();
